@@ -11,7 +11,11 @@ public class GrafoController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        String nos[] = request.getParameterValues("nos");
+        for (String no : nos) {
+            //Código para criar nós felizinhos.
+        }
+        //Mais código, agora com arestas e pá
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -40,11 +44,7 @@ public class GrafoController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("direcionado") == null) {
-            //inserir como undirected
-        } else {
-           //inserir como directed
-        }
+        processRequest(request, response);
     }
 
     /**

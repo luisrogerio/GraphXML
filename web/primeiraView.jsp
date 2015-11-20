@@ -15,20 +15,18 @@
         <form action="GrafoController" method="post">
             <br />
             <div id="formulario">
-                <p> <label for="nomeGrafo" ><input type="text" id="nomeGrafo" size="20" name="no-0" value="" placeholder="Nome do Grafo" /></label><input type="checkbox" name="direcionado" value="directed">Direcionado <br /> </p>   
+                <p> <label for="nomeGrafo" ><input type="text" id="nomeGrafo" size="20" name="nomeGrafo" value="" placeholder="Nome do Grafo" /></label><input type="checkbox" name="direcionado" value="directed">Direcionado <br /> </p>   
                 <p>
-                    <label for="no"><input type="text" id="no" size="20" name="no-0" value="" placeholder="Insira nome do Nó" /></label>
+                    <label for="no"><input type="text" id="no" size="20" name="nos" value="" placeholder="Insira nome do Nó" /></label>
                 </p>
 
-            </div>    
-            <button id="adiconaCampo">Adiconar Nó</button>
-            <div id="arestas">
+                <button id="adiconaCampo">Adiconar Nó</button>
                 <p>Arestas(par ordenado):<br />
-                    <label for="aresta"><input type="text" id="aresta" name="aresta-0" value="" size="20" placeholder="A,B"/></p></label>
+                    <label for="aresta"><input type="text" id="aresta" name="arestas" value="" size="20" placeholder="A,B"/></p></label>
 
-            </div>
             <p><button id="adiconaAresta">Adiconar Aresta</button></p>
             <input type="submit" name="bntIncluir" value="Enviar" />
+            </div>
         </form>
         <script src="js/scriptFormCreator.js"></script>
     </body>

@@ -2,13 +2,13 @@ $(function() {
     var i = 1;
     var j = 1;
     $('#adiconaCampo').live('click', function() {
-        $('<p><label for="no"><input type="text" id="no" size="20" name="no-' + i + '" value="" placeholder="Insira nome do Nó" /></label> \n\
+        $('<p><label for="no"><input type="text" id="no" size="20" name="nos" value="" placeholder="Insira nome do Nó" /></label> \n\
             <a href="#" id="removerNo">Remove</a></p>').appendTo(formulario);
         i++;
         return false;
     });
     $('#adiconaAresta').live('click', function() {
-        $('<p><label for="no"><input type="text" id="aresta" size="20" name="aresta-' + j + '" value="" placeholder="A,B" /></label> \n\
+        $('<p><label for="no"><input type="text" id="aresta" size="20" name="arestas" value="" placeholder="A,B" /></label> \n\
             <a href="#" id="removerAresta">Remove</a></p>').appendTo(arestas);
         j++;
         return false;
