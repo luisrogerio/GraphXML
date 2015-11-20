@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author LuísRogério
@@ -25,4 +27,12 @@ public class No {
         this.id = id;
     }
 
+    public static No getNoById(String id, List<No> nos) {
+        for (No no : nos) {
+            if (no.getId().equals(id)) {
+                return no;
+            }
+        }
+        return null;
+    }
 }
