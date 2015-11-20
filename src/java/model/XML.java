@@ -31,7 +31,7 @@ public class XML {
         xstream.aliasField("target", Aresta.class, "destino");
         
         try {
-            File arquivo = new File("arquivo.xml");
+            File arquivo = new File("arquivo.xml"); 
             xstream.toXML(grafo, new FileWriter(arquivo));
         } catch (IOException ex) {
             System.err.println("Erro ao abrir arquivo! ");
