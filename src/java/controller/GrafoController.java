@@ -1,21 +1,71 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Aresta;
+import model.No;
+import model.Grafo;
+import model.XML;
 
 public class GrafoController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //pegar e criar objetos nós
         String nos[] = request.getParameterValues("nos");
-        for (String no : nos) {
-            //Código para criar nós felizinhos.
+        List<No> listaNos = new ArrayList();
+        int i = 0;
+        for (String no : nos) {//Código para criar nós felizinhos
+            No ponto = new No(no.toUpperCase());
+            listaNos.add(ponto);
+            i++;
         }
-        //Mais código, agora com arestas e pá
+        //pegar e criar objetos arestas
+        String arestas[] = request.getParameterValues("arestas");
+        List<Aresta> listaArestas = new ArrayList();
+        i = 0;
+        String no1 = null, no2 = null;
+        for (String a : arestas) {  //Codigo para criar as areastas
+            a = a.toUpperCase();
+            a = a.replaceAll(" ", "");
+            for (String resultado : a.split(",", 2)) {
+                if (i == 0) {
+                    no1 = resultado;
+                    i++;
+                } else {
+                    no2 = resultado;
+                    i--;
+                }
+            }
+            Aresta aresta = new Aresta(getNoById(no1, listaNos), getNoById(no2, listaNos));
+            listaArestas.add(aresta);
+        }
+        //pegar e criar o grafo
+        String tipo = request.getParameter("direcionado");
+        if (tipo == null) {
+            tipo = "undirect";
+        }
+        String id = request.getParameter("nomeDoGrafo");
+
+        Grafo grafo = new Grafo(id, tipo, listaNos, listaArestas);
+        XML.salvaGrafo(grafo);
+        RequestDispatcher pagina = request.getRequestDispatcher("grafoSalvo.jsp");
+        pagina.forward(request, response);
+    }
+
+    private No getNoById(String id, List<No> listaNos) {
+        for (No no : listaNos) {
+            if (no.getId().equals(id)) {
+                return no;
+            }
+        }
+        return null;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

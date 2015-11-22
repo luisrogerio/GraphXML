@@ -12,6 +12,10 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h2>Escolha o arquivo:</h2>
+        <form action="SegundoController"  method="post" enctype="multipart/form-data">
+            <p><input type="file" id="xml"> </p>
+             <input type="submit" name="bntIncluir" value="Enviar" />
+        </form>
     </body>
 </html>
