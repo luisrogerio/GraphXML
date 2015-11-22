@@ -10,11 +10,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
         <h3>Carregue um Grafo</h3>
         <form method="post" action="CarregaGrafoController" enctype="multipart/form-data">
-           
+
             <input type="file" name="uploadFile" /> 
             <br/><br/> 
             <input type="submit" value="Upload" />
