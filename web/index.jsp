@@ -13,7 +13,7 @@
         <c:if test="${not empty mensagem}"><h2>${mensagem}</h2></c:if>
         <ul>
             <li><a href="primeiraView.jsp">Inserir Grafo</a></li>
-            <li><a href="segundaView.jsp">Carregara Grafo</a></li>
+            <li><a href="segundaView.jsp">Carregar Grafo</a></li>
         </ul>
     </body>
 </html>

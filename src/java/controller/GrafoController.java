@@ -49,7 +49,7 @@ public class GrafoController extends HttpServlet {
         //pegar e criar o grafo
         String tipo = request.getParameter("direcionado");
         if (tipo == null) {
-            tipo = "undirect";
+            tipo = "undirected";
         }
         String id = request.getParameter("nomeDoGrafo");
 

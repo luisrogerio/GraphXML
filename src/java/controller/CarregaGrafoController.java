@@ -65,14 +65,14 @@ public class CarregaGrafoController extends HttpServlet {
 
         // constructs the directory path to store upload file
         // this path is relative to application's directory
-        String uploadPath = getServletContext().getRealPath("")+ File.separator + UPLOAD_DIRECTORY;
+        String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
 
         // creates the directory if it does not exist
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
         }
-
+        Grafo grafoCarregado = null;
         try {
             // parses the request's content to extract file data
             @SuppressWarnings("unchecked")
@@ -86,19 +86,24 @@ public class CarregaGrafoController extends HttpServlet {
                         String fileName = new File(item.getName()).getName();
                         String filePath = uploadPath + File.separator + fileName;
                         File storeFile = new File(filePath);
-                        // System.out.println(filePath);   //ISSO AQUI VAI TE AJUDAR JOVI!
-                        // saves the file on disk
                         item.write(storeFile);
-                        request.setAttribute("message", "Grafo carregado com sucesso! \\o/");
-                        Grafo grafoCarregado = XML.abrirGrafo(storeFile);
+                        grafoCarregado = XML.abrirGrafo(storeFile);
                     }
                 }
             }
         } catch (Exception ex) {
-            request.setAttribute("message","Erro: " + ex.getMessage());
+            request.setAttribute("mensagem", "Erro: " + ex.getMessage());
+            getServletContext().getRequestDispatcher("/index.jsp").forward(
+                    request, response);
         }
-        // redirects client to message page
-        getServletContext().getRequestDispatcher("/grafoSalvo.jsp").forward(
-                request, response);
+        if (grafoCarregado != null) {
+            request.setAttribute("grafo", grafoCarregado);
+            getServletContext().getRequestDispatcher("/visualizarGrafo.jsp").forward(
+                    request, response);
+        }else {
+            request.setAttribute("mensagem", "Nenhum Grafo foi carregado!");
+            getServletContext().getRequestDispatcher("/index.jsp").forward(
+                    request, response);
+        }
     }
 }

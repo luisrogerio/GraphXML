@@ -8,8 +8,8 @@ import java.io.IOException;
 public class XML {
 
     private static XStream xstream = new XStream();
-
-    public static void salvaGrafo(Grafo grafo, String path) {
+    
+    private static void inicializaXStream() {
         xstream.alias("graph", Grafo.class);
         xstream.useAttributeFor(Grafo.class, "tipo");
         xstream.useAttributeFor(Grafo.class, "id");
@@ -18,8 +18,8 @@ public class XML {
         xstream.alias("node", No.class);
         xstream.alias("edge", Aresta.class);
         
-        xstream.addImplicitCollection(Grafo.class, "nos");
-        xstream.addImplicitCollection(Grafo.class, "arestas");
+        xstream.addImplicitCollection(Grafo.class, "nos", No.class);
+        xstream.addImplicitCollection(Grafo.class, "arestas", Aresta.class);
         
         xstream.useAttributeFor(No.class, "id");
         
@@ -30,6 +30,10 @@ public class XML {
         
         xstream.aliasField("source", Aresta.class, "origem");
         xstream.aliasField("target", Aresta.class, "destino");
+    }
+
+    public static void salvaGrafo(Grafo grafo, String path) {
+        inicializaXStream();
         try {
             File arquivo = new File(path + "../../graph.xml"); 
             xstream.toXML(grafo, new FileWriter(arquivo));
@@ -40,6 +44,8 @@ public class XML {
     }
     
     public static Grafo abrirGrafo(File file) {
-        return (Grafo) xstream.fromXML(file);
+        inicializaXStream();
+        Grafo grafo = (Grafo) xstream.fromXML(file);
+        return grafo;
     }
 }
