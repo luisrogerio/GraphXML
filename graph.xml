@@ -1,6 +1,7 @@
-<graph id="Só testes" edgedefault="directed">
-  <node>A</node>
-  <node>B</node>
+<graph id="G" edgedefault="undirected">
+  <node id="A"/>
+  <node id="B"/>
+  <node id="C"/>
   <edge source="A" target="B"/>
   <edge source="B" target="A"/>
 </graph>
