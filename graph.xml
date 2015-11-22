@@ -1,7 +1,0 @@
-<graph id="G" edgedefault="undirected">
-  <node id="A"/>
-  <node id="B"/>
-  <node id="C"/>
-  <edge source="A" target="B"/>
-  <edge source="B" target="A"/>
-</graph>
