@@ -28,6 +28,7 @@
             <p><button id="adiconaAresta">Adiconar Aresta</button></p>
             <input type="submit" name="bntIncluir" value="Enviar" />
         </form>
+        <p><a href="index.jsp">Voltar</a></p>
         <script src="js/scriptFormCreator.js"></script>
     </body>
 </html>

@@ -33,6 +33,7 @@ public class XML {
         try {
             File arquivo = new File("arquivo.xml"); 
             xstream.toXML(grafo, new FileWriter(arquivo));
+            System.out.println("CAMINHO PARA O ARQUIVO: "+arquivo.getCanonicalPath());
         } catch (IOException ex) {
             System.err.println("Erro ao abrir arquivo! ");
         }

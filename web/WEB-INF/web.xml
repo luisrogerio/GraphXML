@@ -4,9 +4,17 @@
         <servlet-name>GrafoController</servlet-name>
         <servlet-class>controller.GrafoController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CarregaGrafoController</servlet-name>
+        <servlet-class>controller.CarregaGrafoController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GrafoController</servlet-name>
         <url-pattern>/GrafoController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CarregaGrafoController</servlet-name>
+        <url-pattern>/CarregaGrafoController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

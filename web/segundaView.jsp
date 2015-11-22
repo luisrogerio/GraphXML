@@ -12,10 +12,13 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h2>Escolha o arquivo:</h2>
-        <form action="SegundoController"  method="post" enctype="multipart/form-data">
-            <p><input type="file" id="xml"> </p>
-             <input type="submit" name="bntIncluir" value="Enviar" />
+        <h3>Carregue um Grafo</h3>
+        <form method="post" action="CarregaGrafoController" enctype="multipart/form-data">
+           
+            <input type="file" name="uploadFile" /> 
+            <br/><br/> 
+            <input type="submit" value="Upload" />
         </form>
+        <p><a href="index.jsp">Voltar</a></p>
     </body>
 </html>
