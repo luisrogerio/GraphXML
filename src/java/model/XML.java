@@ -9,8 +9,7 @@ public class XML {
 
     private static XStream xstream = new XStream();
 
-    public static void salvaGrafo(Grafo grafo) {
-        
+    public static void salvaGrafo(Grafo grafo, String path) {
         xstream.alias("graph", Grafo.class);
         xstream.useAttributeFor(Grafo.class, "tipo");
         xstream.useAttributeFor(Grafo.class, "id");
@@ -31,7 +30,7 @@ public class XML {
         xstream.aliasField("target", Aresta.class, "destino");
         
         try {
-            File arquivo = new File("arquivo.xml"); 
+            File arquivo = new File(path + "../../graph.xml"); 
             xstream.toXML(grafo, new FileWriter(arquivo));
         } catch (IOException ex) {
             System.err.println("Erro ao abrir arquivo! ");

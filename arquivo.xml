@@ -1,0 +1,5 @@
+<graph id="dsa" edgedefault="undirect">
+  <node>A</node>
+  <node>B</node>
+  <edge source="A" target="B"/>
+</graph>

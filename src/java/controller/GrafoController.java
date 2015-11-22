@@ -43,7 +43,7 @@ public class GrafoController extends HttpServlet {
                     i--;
                 }
             }
-            Aresta aresta = new Aresta(getNoById(no1, listaNos), getNoById(no2, listaNos));
+            Aresta aresta = new Aresta(No.getNoById(no1, listaNos), No.getNoById(no2, listaNos));
             listaArestas.add(aresta);
         }
         //pegar e criar o grafo
@@ -54,18 +54,11 @@ public class GrafoController extends HttpServlet {
         String id = request.getParameter("nomeDoGrafo");
 
         Grafo grafo = new Grafo(id, tipo, listaNos, listaArestas);
-        XML.salvaGrafo(grafo);
-        RequestDispatcher pagina = request.getRequestDispatcher("grafoSalvo.jsp");
+        String caminhoServer = this.getServletContext().getRealPath("");
+        XML.salvaGrafo(grafo, caminhoServer);
+        request.setAttribute("mensagem", "Grafo salvo com Sucesso!");
+        RequestDispatcher pagina = request.getRequestDispatcher("index.jsp");
         pagina.forward(request, response);
-    }
-
-    private No getNoById(String id, List<No> listaNos) {
-        for (No no : listaNos) {
-            if (no.getId().equals(id)) {
-                return no;
-            }
-        }
-        return null;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
