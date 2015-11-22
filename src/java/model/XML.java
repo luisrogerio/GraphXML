@@ -16,19 +16,20 @@ public class XML {
         xstream.aliasField("edgedefault", Grafo.class, "tipo");
         
         xstream.alias("node", No.class);
-        
         xstream.alias("edge", Aresta.class);
         
         xstream.addImplicitCollection(Grafo.class, "nos");
         xstream.addImplicitCollection(Grafo.class, "arestas");
         
+        xstream.useAttributeFor(No.class, "id");
+        
         xstream.useAttributeFor(Aresta.class, "origem");
         xstream.useAttributeFor(Aresta.class, "destino");
-        xstream.registerConverter(new NoConverter());
+        xstream.registerLocalConverter(Aresta.class, "origem", new NoConverter());
+        xstream.registerLocalConverter(Aresta.class, "destino", new NoConverter());
         
         xstream.aliasField("source", Aresta.class, "origem");
         xstream.aliasField("target", Aresta.class, "destino");
-        
         try {
             File arquivo = new File(path + "../../graph.xml"); 
             xstream.toXML(grafo, new FileWriter(arquivo));
