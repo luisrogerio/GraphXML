@@ -1,6 +1,6 @@
 //SCRIPT PARA OCULTAR A MENSAGEM APOS 4S;
-$(document).ready(function() {
-setTimeout("$('#mensagem').hide()", 4000);
+$(document).ready(function () {
+    setTimeout("$('#mensagem').hide(500)", 4000);
 });
 //SCRIPT PARA CRIAR OS ELEMENTOS E O CARAI A 4;
 $(function () {
