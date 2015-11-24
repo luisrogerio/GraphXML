@@ -11,7 +11,6 @@
 
     </head>
     <body>
-        <!--Colocar aqui um negócio em jQuery que faça as coisas desaparecem em 5 segundos-->
         <c:if test="${not empty mensagem}"><h2 id="mensagem">${mensagem}</h2></c:if>
         <ul>
             <li><a href="primeiraView.jsp">Inserir Grafo</a></li>

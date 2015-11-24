@@ -1,0 +1,9 @@
+<graph id="Grafos" edgedefault="undirected">
+  <node id="A"/>
+  <node id="B"/>
+  <node id="C"/>
+  <node id="D"/>
+  <edge source="A" target="B"/>
+  <edge source="C" target="A"/>
+  <edge source="D" target="A"/>
+</graph>
