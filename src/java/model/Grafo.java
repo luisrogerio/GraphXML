@@ -5,7 +5,9 @@
  */
 package model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -23,6 +25,55 @@ public class Grafo {
         this.tipo = tipo;
         this.nos = nos;
         this.arestas = arestas;
+    }
+    
+    public int getOrdem(){
+        return this.nos.size();
+    }
+    
+    public Map<No, Integer> getGraus(){
+        Map<No, Integer> grausDosNos = new HashMap<No, Integer>();
+        for (No no : this.nos) {
+            int grau = 0;
+            for(Aresta aresta : this.arestas){
+                if(aresta.getDestino().getId() == no.getId()){
+                    grau++;
+                }
+                if(aresta.getOrigem().getId() == no.getId()){
+                    grau++;
+                }
+                grausDosNos.put(no, grau);
+            }
+        }
+        return grausDosNos;
+    }
+    
+    public Map<No, Integer> getGrausDeEmissao(){
+        Map<No, Integer> grausDosNos = new HashMap<No, Integer>();
+        for (No no : this.nos) {
+            int grau = 0;
+            for(Aresta aresta : this.arestas){
+                if(aresta.getOrigem().getId() == no.getId()){
+                    grau++;
+                }
+                grausDosNos.put(no, grau);
+            }
+        }
+        return grausDosNos;
+    }
+    
+    public Map<No, Integer> getGrausDeRecepcao(){
+        Map<No, Integer> grausDosNos = new HashMap<No, Integer>();
+        for (No no : this.nos) {
+            int grau = 0;
+            for(Aresta aresta : this.arestas){
+                if(aresta.getDestino().getId() == no.getId()){
+                    grau++;
+                }
+                grausDosNos.put(no, grau);
+            }
+        }
+        return grausDosNos;
     }
 
     public String getId() {
