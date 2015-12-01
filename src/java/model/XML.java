@@ -23,6 +23,7 @@ public class XML {
         
         xstream.useAttributeFor(No.class, "id");
         
+        xstream.useAttributeFor(Aresta.class, "id");
         xstream.useAttributeFor(Aresta.class, "origem");
         xstream.useAttributeFor(Aresta.class, "destino");
         xstream.registerLocalConverter(Aresta.class, "origem", new NoConverter());
