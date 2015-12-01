@@ -59,13 +59,16 @@ public class CarregaGrafoController extends HttpServlet {
             }
         } catch (Exception ex) {
             request.setAttribute("mensagem", "Erro: " + ex.getMessage());
-            getServletContext().getRequestDispatcher("/index.jsp").forward(
-                    request, response);
+            getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
         }
         if (grafoCarregado != null) {
             request.setAttribute("grafo", grafoCarregado);
-            getServletContext().getRequestDispatcher("/visualizarGrafo.jsp").forward(
-                    request, response);
+            request.setAttribute("ordem", grafoCarregado.getOrdem());
+            request.setAttribute("grauDosNos", grafoCarregado.getGraus());
+            request.setAttribute("grauDeEmissao", grafoCarregado.getGrausDeEmissao());
+            request.setAttribute("grauDeRecepcao", grafoCarregado.getGrausDeRecepcao());
+            
+            getServletContext().getRequestDispatcher("/visualizarGrafo.jsp").forward(request, response);
         } else {
             request.setAttribute("mensagem", "Nenhum Grafo foi carregado!");
             getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
