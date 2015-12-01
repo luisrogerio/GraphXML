@@ -12,52 +12,48 @@ import model.Aresta;
 import model.No;
 import model.Grafo;
 import model.XML;
+//MOVER TODOS OS OBJETOS PARA O INICIO DO CODIGO;
 
-public class GrafoController extends HttpServlet {
+public class InserirGrafoController extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //pegar e criar objetos nós
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher pagina = request.getRequestDispatcher("index.jsp");
+        String caminhoServer = this.getServletContext().getRealPath("");
+        request.setAttribute("mensagem", "Grafo salvo com Sucesso!");
         String nos[] = request.getParameterValues("nos");
-        List<No> listaNos = new ArrayList();
-        int i = 0;
-        for (String no : nos) {//Código para criar nós felizinhos
-            No ponto = new No(no.toUpperCase());
-            listaNos.add(ponto);
-            i++;
-        }
-        //pegar e criar objetos arestas
-        String arestas[] = request.getParameterValues("arestas");
-        List<Aresta> listaArestas = new ArrayList();
-        i = 0;
-        String no1 = null, no2 = null;
-        for (String a : arestas) {  //Codigo para criar as areastas
-            a = a.toUpperCase();
-            a = a.replaceAll(" ", "");
-            for (String resultado : a.split(",", 2)) {
-                if (i == 0) {
-                    no1 = resultado;
-                    i++;
-                } else {
-                    no2 = resultado;
-                    i--;
-                }
-            }
-            Aresta aresta = new Aresta(No.getNoById(no1, listaNos), No.getNoById(no2, listaNos));
-            listaArestas.add(aresta);
-        }
-        //pegar e criar o grafo
         String tipo = request.getParameter("direcionado");
+        String id = request.getParameter("nomeDoGrafo");
+        String arestas[] = request.getParameterValues("arestas");
+        List<No> listaNos = new ArrayList();
+        List<Aresta> listaArestas = new ArrayList();
+        No ponto = null;
+        String no1 = null, no2 = null;
+        Aresta aresta = null;
+        Grafo grafo = null;
+        int i = 1;
+
         if (tipo == null) {
             tipo = "undirected";
         }
-        String id = request.getParameter("nomeDoGrafo");
 
-        Grafo grafo = new Grafo(id, tipo, listaNos, listaArestas);
-        String caminhoServer = this.getServletContext().getRealPath("");
+        for (String no : nos) {
+            ponto = new No(no.toUpperCase());
+            listaNos.add(ponto);
+        }
+
+        for (String a : arestas) {  //Codigo para criar as areastas
+            a = a.toUpperCase();
+            a = a.replaceAll(" ", "");
+            String[] resultado = a.split(",", 2);
+            no1 = resultado[0];
+            no2 = resultado[1];
+            aresta = new Aresta("A" + i, No.getNoById(no1, listaNos), No.getNoById(no2, listaNos));
+            listaArestas.add(aresta);
+            i++;
+        }
+
+        grafo = new Grafo(id, tipo, listaNos, listaArestas);
         XML.salvaGrafo(grafo, caminhoServer);
-        request.setAttribute("mensagem", "Grafo salvo com Sucesso!");
-        RequestDispatcher pagina = request.getRequestDispatcher("index.jsp");
         pagina.forward(request, response);
     }
 
