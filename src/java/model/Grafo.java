@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +76,43 @@ public class Grafo {
         }
         return grausDosNos;
     }
-
+    
+    public int[][] getMatrizAdjacencia(Grafo grafo){
+        int matriz[][] = new int[grafo.nos.size()][grafo.nos.size()];
+        Map<No, Integer> nosDoGrafo = new HashMap<No, Integer>();
+        int i = 0;
+        for(No no: grafo.nos){
+            nosDoGrafo.put(no, i);
+            i++;
+        }
+        for(Aresta aresta: grafo.arestas){
+            matriz[nosDoGrafo.get(aresta.getOrigem())][nosDoGrafo.get(aresta.getDestino())] = 1;
+            matriz[nosDoGrafo.get(aresta.getDestino())][nosDoGrafo.get(aresta.getOrigem())] = 1;
+        }
+        return matriz;
+    }
+    
+    public int[][] getMatrizIncidencia(Grafo grafo){
+        int matriz[][] = new int[grafo.nos.size()][grafo.arestas.size()];
+        Map<No, Integer> nosDoGrafo = new HashMap<No, Integer>();
+        Map<Aresta, Integer> arestasDoGrafo = new HashMap<Aresta, Integer>();
+        int i = 0;
+        for(No no: grafo.nos){
+            nosDoGrafo.put(no, i);
+            i++;
+        }
+        i=0;
+        for(Aresta aresta: grafo.arestas){
+            arestasDoGrafo.put(aresta, i);
+            i++;
+        }
+        for(Aresta aresta: grafo.arestas){
+            matriz[nosDoGrafo.get(aresta.getOrigem())][arestasDoGrafo.get(aresta)] = 1;
+            matriz[nosDoGrafo.get(aresta.getDestino())][arestasDoGrafo.get(aresta)] = 1;
+        }
+        return matriz;
+    }
+    
     public String getId() {
         return id;
     }
