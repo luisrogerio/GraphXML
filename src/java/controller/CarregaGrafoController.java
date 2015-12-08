@@ -3,12 +3,17 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Aresta;
 import model.Grafo;
+import model.No;
 import model.XML;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -22,6 +27,7 @@ public class CarregaGrafoController extends HttpServlet {
     private static final int MAX_FILE_SIZE = 1024 * 1024 * 40; // 40MB
     private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 50; // 50MB
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Grafo grafoCarregado = null;
         if (!ServletFileUpload.isMultipartContent(request)) {
@@ -30,7 +36,6 @@ public class CarregaGrafoController extends HttpServlet {
             writer.flush();
             return;
         }
-
         DiskFileItemFactory factory = new DiskFileItemFactory();
         factory.setSizeThreshold(MEMORY_THRESHOLD);
         factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
@@ -62,16 +67,78 @@ public class CarregaGrafoController extends HttpServlet {
             getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
         }
         if (grafoCarregado != null) {
+            request.getSession().setAttribute("grafo", grafoCarregado);
             request.setAttribute("grafo", grafoCarregado);
-            request.setAttribute("ordem", grafoCarregado.getOrdem());
-            request.setAttribute("grauDosNos", grafoCarregado.getGraus());
-            request.setAttribute("grauDeEmissao", grafoCarregado.getGrausDeEmissao());
-            request.setAttribute("grauDeRecepcao", grafoCarregado.getGrausDeRecepcao());
             
+            if (grafoCarregado.getTipo().equals("directed")) {
+                request.setAttribute("grauDeEmissao", CarregaGrafoController.criaArray(grafoCarregado.getGrausDeEmissao()));
+                request.setAttribute("grauDeRecepcao", CarregaGrafoController.criaArray(grafoCarregado.getGrausDeRecepcao()));
+                request.setAttribute("nosSumidouros", CarregaGrafoController.criaArrayDeNosFontesOuSumidouros(grafoCarregado.getGrausDeEmissao()));
+                request.setAttribute("nosFonte", CarregaGrafoController.criaArrayDeNosFontesOuSumidouros(grafoCarregado.getGrausDeRecepcao()));
+                request.setAttribute("listaNosAntecessores", CarregaGrafoController.criaListaAntecessores(grafoCarregado));
+                request.setAttribute("listaNosSucessores", CarregaGrafoController.criaListaSucessores(grafoCarregado));
+            }else{
+                request.setAttribute("nosComGrau", CarregaGrafoController.criaArray(grafoCarregado.getGraus()));
+            }
+
             getServletContext().getRequestDispatcher("/visualizarGrafo.jsp").forward(request, response);
+
         } else {
             request.setAttribute("mensagem", "Nenhum Grafo foi carregado!");
             getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
         }
+    }
+
+    private static ArrayList<String> criaArray(Map<No, Integer> mapa) {
+        if (mapa.isEmpty()) {
+            ArrayList<No> nos = (ArrayList<No>) mapa.keySet();
+            ArrayList<Integer> valor = (ArrayList<Integer>) mapa.values();
+            ArrayList<String> nosMaisValores = new ArrayList();
+            for (int i = 0; i < nos.size(); i++) {
+                nosMaisValores.add(nos.get(i).getId() + ": " + valor.get(i).toString());
+            }
+            return nosMaisValores;
+        }
+        return null;
+    }//Essa LINDA gambiarra irá concatenar as keys do mapa com seus valores.(Entrada: A -> 12; Saida: A: 12)
+
+    private static ArrayList<No> criaArrayDeNosFontesOuSumidouros(Map<No, Integer> mapa) {
+        ArrayList<No> listaDeNosFontes = new ArrayList();
+        for (No no : mapa.keySet()) {
+            if (mapa.get(no) == 0) {
+                listaDeNosFontes.add(no);
+            }
+        }
+        return listaDeNosFontes;
+    }
+
+    private static HashMap<No, List<No>> criaListaAntecessores(Grafo grafo) {
+        HashMap<No, List<No>> mapaDeNosAntecessores = new HashMap();
+        List<No> listaDeNosAntecessores = new ArrayList();
+        for (No noAtual : grafo.getNos()) {
+
+            for (Aresta arestaAtual : grafo.getArestas()) {
+                if (noAtual == arestaAtual.getDestino()) {
+                    listaDeNosAntecessores.add(arestaAtual.getOrigem());
+                }
+            }
+            mapaDeNosAntecessores.put(noAtual, listaDeNosAntecessores);
+        }
+        return mapaDeNosAntecessores;
+    }
+
+    private static HashMap<No, List<No>> criaListaSucessores(Grafo grafo) {
+        HashMap<No, List<No>> mapaDeNosSucessores = new HashMap();
+        List<No> listaDeNosSucessores = new ArrayList();
+        for (No noAtual : grafo.getNos()) {
+
+            for (Aresta arestaAtual : grafo.getArestas()) {
+                if (noAtual == arestaAtual.getOrigem()) {
+                    listaDeNosSucessores.add(arestaAtual.getDestino());
+                }
+            }
+            mapaDeNosSucessores.put(noAtual, listaDeNosSucessores);
+        }
+        return mapaDeNosSucessores;
     }
 }

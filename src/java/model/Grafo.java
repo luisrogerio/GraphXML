@@ -5,7 +5,6 @@
  */
 package model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,10 +36,10 @@ public class Grafo {
         for (No no : this.nos) {
             int grau = 0;
             for(Aresta aresta : this.arestas){
-                if(aresta.getDestino().getId() == no.getId()){
+                if(aresta.getDestino().getId().equals(no.getId())){
                     grau++;
                 }
-                if(aresta.getOrigem().getId() == no.getId()){
+                if(aresta.getOrigem().getId().equals(no.getId())){
                     grau++;
                 }
                 grausDosNos.put(no, grau);
