@@ -69,7 +69,7 @@ public class CarregaGrafoController extends HttpServlet {
         if (grafoCarregado != null) {
             request.getSession().setAttribute("grafo", grafoCarregado);
             request.setAttribute("grafo", grafoCarregado);
-            
+
             if (grafoCarregado.getTipo().equals("directed")) {
                 request.setAttribute("grauDeEmissao", CarregaGrafoController.criaArray(grafoCarregado.getGrausDeEmissao()));
                 request.setAttribute("grauDeRecepcao", CarregaGrafoController.criaArray(grafoCarregado.getGrausDeRecepcao()));
@@ -77,7 +77,7 @@ public class CarregaGrafoController extends HttpServlet {
                 request.setAttribute("nosFonte", CarregaGrafoController.criaArrayDeNosFontesOuSumidouros(grafoCarregado.getGrausDeRecepcao()));
                 request.setAttribute("listaNosAntecessores", CarregaGrafoController.criaListaAntecessores(grafoCarregado));
                 request.setAttribute("listaNosSucessores", CarregaGrafoController.criaListaSucessores(grafoCarregado));
-            }else{
+            } else {
                 request.setAttribute("nosComGrau", CarregaGrafoController.criaArray(grafoCarregado.getGraus()));
             }
 
@@ -140,5 +140,51 @@ public class CarregaGrafoController extends HttpServlet {
             mapaDeNosSucessores.put(noAtual, listaDeNosSucessores);
         }
         return mapaDeNosSucessores;
+    }
+
+    private static List<No> listaNosIsolados(Map<No, Integer> mapa) {
+        List<No> listaDeNosIsolados = new ArrayList();
+        for (No noAtual : mapa.keySet()) {
+            if (mapa.get(noAtual) == 0) {
+                listaDeNosIsolados.add(noAtual);
+            }
+        }
+        return listaDeNosIsolados;
+    }
+
+    private static List<No> listaNosFolhas(Map<No, Integer> mapa) { //Conferir se essa função também funciona para grafos direcionados.
+        List<No> listaDeNosFolhas = new ArrayList();
+        for (No noAtual : mapa.keySet()) {
+            if (mapa.get(noAtual) == 1) {
+                listaDeNosFolhas.add(noAtual);
+            }
+        }
+        return listaDeNosFolhas;
+    }
+
+    private static List<No> listaVerticesIndependentes(int[][] matriz, Grafo grafo) {
+        int i = 0;
+        Map<No, Integer> nosDoGrafo = new HashMap<No, Integer>();
+        Map<Aresta, Integer> arestasDoGrafo = new HashMap<Aresta, Integer>();
+        for (No no : grafo.getNos()) {
+            nosDoGrafo.put(no, i);
+            i++;
+        }
+        i = 0;
+        for (Aresta aresta : grafo.getArestas()) {
+            arestasDoGrafo.put(aresta, i);
+            i++;
+        }
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[0].length; j++) {
+                if (matriz[i][j] == 0) {
+                    
+                }
+            }
+        }
+    }
+
+    private static List<Aresta> listaArestasIndependentes(int[][] matriz) {
+
     }
 }
