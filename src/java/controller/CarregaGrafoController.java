@@ -162,29 +162,42 @@ public class CarregaGrafoController extends HttpServlet {
         return listaDeNosFolhas;
     }
 
-    private static List<No> listaVerticesIndependentes(int[][] matriz, Grafo grafo) {
-        int i = 0;
-        Map<No, Integer> nosDoGrafo = new HashMap<No, Integer>();
-        Map<Aresta, Integer> arestasDoGrafo = new HashMap<Aresta, Integer>();
-        for (No no : grafo.getNos()) {
-            nosDoGrafo.put(no, i);
-            i++;
-        }
-        i = 0;
-        for (Aresta aresta : grafo.getArestas()) {
-            arestasDoGrafo.put(aresta, i);
-            i++;
-        }
-        for (int i = 0; i < matriz.length; i++) {
-            for (int j = 0; j < matriz[0].length; j++) {
-                if (matriz[i][j] == 0) {
-                    
+    private static List<String> listaArestasIndependentes(Grafo grafo) {
+        List<Aresta> listaArestas = grafo.getArestas();
+        List<String> listaFinal = new ArrayList();
+        String nos = new String();
+        Aresta arestaAtual = null;
+        for (int i = 0; i < listaArestas.size(); i++) {
+            arestaAtual = listaArestas.get(i);
+            listaFinal.add(i, arestaAtual.getId() + ": ");
+            for (Aresta arestaAComparar : listaArestas) {
+                if (!arestaAtual.getId().equals(arestaAComparar.getId())) {
+                    if (arestaAtual.getDestino() != arestaAComparar.getDestino() && arestaAtual.getOrigem() != arestaAComparar.getOrigem()) {
+                        listaFinal.add(i, listaFinal.get(i) + arestaAComparar.getId());
+                    }
                 }
             }
         }
-    }
+        return listaFinal;
+    }//Mais um RECURSO TECNICO ALTERNATIVO para dar uma lista pronta para ser impressa na view
 
-    private static List<Aresta> listaArestasIndependentes(int[][] matriz) {
-
+    private static List<String> listaVerticesIndependentes(Grafo grafo) {
+        List<Aresta> listaArestas = grafo.getArestas();
+        List<String> listaFinal = new ArrayList();
+        String nos = new String();
+        Aresta arestaAtual = null;
+        for (int i = 0; i < listaArestas.size(); i++) {
+            arestaAtual = listaArestas.get(i);
+            listaFinal.add(i, arestaAtual+ ": "); //continuar aqui
+            
+            for (Aresta arestaAComparar : listaArestas) {
+                if (!arestaAtual.getId().equals(arestaAComparar.getId())) {
+                    if (arestaAtual.getOrigem() == arestaAComparar.getOrigem() || arestaAtual.getDestino() == arestaAComparar.getOrigem()) {
+                        listaFinal.add(i, listaFinal.get(i) + arestaAComparar.getId());
+                    }
+                }
+            }
+        }
+        return listaFinal;
     }
 }
