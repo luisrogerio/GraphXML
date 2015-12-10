@@ -80,7 +80,9 @@ public class CarregaGrafoController extends HttpServlet {
             } else {
                 request.setAttribute("nosComGrau", CarregaGrafoController.criaArray(grafoCarregado.getGraus()));
             }
-            
+            request.setAttribute("listaVerticesIndependentes", CarregaGrafoController.listaVerticesIndependentes(grafoCarregado, grafoCarregado.getMatrizAdjacencia()));
+            request.setAttribute("listaArestasIndependentes", CarregaGrafoController.listaArestasIndependentes(grafoCarregado, grafoCarregado.getMatrizAdjacencia()));
+
             getServletContext().getRequestDispatcher("/visualizarGrafo.jsp").forward(request, response);
 
         } else {
@@ -162,42 +164,57 @@ public class CarregaGrafoController extends HttpServlet {
         return listaDeNosFolhas;
     }
 
-    private static List<String> listaArestasIndependentes(Grafo grafo) {
-        List<Aresta> listaArestas = grafo.getArestas();
-        List<String> listaFinal = new ArrayList();
-        String nos = new String();
-        Aresta arestaAtual = null;
-        for (int i = 0; i < listaArestas.size(); i++) {
-            arestaAtual = listaArestas.get(i);
-            listaFinal.add(i, arestaAtual.getId() + ": ");
-            for (Aresta arestaAComparar : listaArestas) {
-                if (!arestaAtual.getId().equals(arestaAComparar.getId())) {
-                    if (arestaAtual.getDestino() != arestaAComparar.getDestino() && arestaAtual.getOrigem() != arestaAComparar.getOrigem()) {
-                        listaFinal.add(i, listaFinal.get(i) + arestaAComparar.getId());
-                    }
+    private static List<List<Aresta>> listaArestasIndependentes(Grafo grafo, int matriz[][]) {
+        List<List<Aresta>> listaArestasIndependentes = new ArrayList();
+        List<Aresta> listaArestas = new ArrayList();
+        Map<Integer, No> nosDoGrafo = new HashMap();
+        Map<Integer, Aresta> arestasDoGrafo = new HashMap();
+        int i = 0, j = 0;
+        for (No no : grafo.getNos()) {
+            nosDoGrafo.put(i, no);
+            i++;
+        }
+        i = 0;
+        for (Aresta aresta : grafo.getArestas()) {
+            arestasDoGrafo.put(i, aresta);
+            i++;
+        }
+        for (i = 0; i < matriz.length; i++) {
+            listaArestas.clear();
+            for (j = 0; j < matriz[0].length; j++) {
+                if(matriz[i][j] == 0) {
+                    listaArestas.add(arestasDoGrafo.get(j));
                 }
             }
+            listaArestasIndependentes.add(listaArestas);
         }
-        return listaFinal;
-    }//Mais um RECURSO TECNICO ALTERNATIVO para dar uma lista pronta para ser impressa na view
+        return listaArestasIndependentes;
+    }
 
-    private static List<String> listaVerticesIndependentes(Grafo grafo) {
-        List<Aresta> listaArestas = grafo.getArestas();
-        List<String> listaFinal = new ArrayList();
-        String nos = new String();
-        Aresta arestaAtual = null;
-        for (int i = 0; i < listaArestas.size(); i++) {
-            arestaAtual = listaArestas.get(i);
-            listaFinal.add(i, arestaAtual+ ": "); //continuar aqui
-            
-            for (Aresta arestaAComparar : listaArestas) {
-                if (!arestaAtual.getId().equals(arestaAComparar.getId())) {
-                    if (arestaAtual.getOrigem() == arestaAComparar.getOrigem() || arestaAtual.getDestino() == arestaAComparar.getOrigem()) {
-                        listaFinal.add(i, listaFinal.get(i) + arestaAComparar.getId());
-                    }
+    private static List<List<No>> listaVerticesIndependentes(Grafo grafo, int matriz[][]) {
+        List<List<No>> listaVerticesIndependentes = new ArrayList();
+        List<No> listaVertices = new ArrayList();
+        Map<Integer, No> nosDoGrafo = new HashMap();
+        Map<Integer, Aresta> arestasDoGrafo = new HashMap();
+        int i = 0, j = 0;
+        for (No no : grafo.getNos()) {
+            nosDoGrafo.put(i, no);
+            i++;
+        }
+        i = 0;
+        for (Aresta aresta : grafo.getArestas()) {
+            arestasDoGrafo.put(i, aresta);
+            i++;
+        }
+        for (i = 0; i < matriz[0].length; i++) {
+            listaVertices.clear();
+            for (j = 0; j < matriz.length; j++) {
+                if(matriz[i][j] == 0) {
+                    listaVertices.add(nosDoGrafo.get(i));
                 }
             }
+            listaVerticesIndependentes.add(listaVertices);
         }
-        return listaFinal;
+        return listaVerticesIndependentes;
     }
 }
