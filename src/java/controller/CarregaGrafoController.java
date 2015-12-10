@@ -80,7 +80,7 @@ public class CarregaGrafoController extends HttpServlet {
             } else {
                 request.setAttribute("nosComGrau", CarregaGrafoController.criaArray(grafoCarregado.getGraus()));
             }
-
+            
             getServletContext().getRequestDispatcher("/visualizarGrafo.jsp").forward(request, response);
 
         } else {
