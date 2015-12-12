@@ -53,6 +53,8 @@ public class InserirGrafoController extends HttpServlet {
         }
 
         grafo = new Grafo(id, tipo, listaNos, listaArestas);
+        request.setAttribute("grafo", grafo);
+        request.getSession().setAttribute("grafo", grafo);
         XML.salvaGrafo(grafo, caminhoServer);
         pagina.forward(request, response);
     }

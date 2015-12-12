@@ -16,6 +16,6 @@
             <li><a href="inserirGrafo.jsp">Inserir Grafo</a></li>
             <li><a href="carregarGrafo.jsp">Carregar Grafo</a></li>
         </ul>
-
+        <c:if test="${not empty grafo}"><a href="visualizaGrafoCanvas.jsp">Ver Grafo</a></c:if>
     </body>
 </html>

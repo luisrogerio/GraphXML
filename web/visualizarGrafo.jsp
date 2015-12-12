@@ -19,18 +19,26 @@
                 <c:when test="${grafo.tipo == 'directed'}">Direcionado</c:when>
                 <c:otherwise>Não-Direcionado</c:otherwise>
             </c:choose>
+            <br />
+            <a href="visualizaGrafoCanvas.jsp" >Visualizar grafo</a>
         </h3>
         <p>Nós</p>
         <ul>
             <c:forEach items="${grafo.nos}" var="no">
                 <li><c:out value="${no.id}"></c:out></li>
-            </c:forEach>
+                </c:forEach>
         </ul>
         <p>Arestas</p>
         <ul>
             <c:forEach items="${grafo.arestas}" var="aresta">
                 <li><c:out value="${aresta.origem.id}"></c:out> - <c:out value="${aresta.destino.id}"></c:out></li>
-            </c:forEach>
+                </c:forEach>
+        </ul>
+        Grau de emissão:
+        <ul>
+            <c:forEach items="${grauDeEmissao}" var="no">
+                <li><c:out value="${no}"></c:out></li>
+                </c:forEach>
         </ul>
         <a href="index.jsp">Voltar</a>
     </body>

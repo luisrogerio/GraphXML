@@ -12,7 +12,7 @@
     <body>
         <h2>Inserir Grafo</h2>
 
-        <form action="GrafoController" method="post">
+        <form action="InserirGrafoController" method="post">
             <p> <label for="nomeGrafo" ><input type="text" id="nomeGrafo" size="20" name="nomeDoGrafo" value="" placeholder="Nome do Grafo" /></label><input type="checkbox" name="direcionado" value="directed">Direcionado <br /> </p> 
             
             <div id="formulario">
