@@ -26,20 +26,20 @@ public class Grafo {
         this.nos = nos;
         this.arestas = arestas;
     }
-    
-    public int getOrdem(){
-        return this.nos.size();
+
+    public int getOrdem() {
+        return this.getNos().size();
     }
-    
-    public Map<No, Integer> getGraus(){
+
+    public Map<No, Integer> getGraus() {
         Map<No, Integer> grausDosNos = new HashMap<No, Integer>();
         for (No no : this.nos) {
             int grau = 0;
-            for(Aresta aresta : this.arestas){
-                if(aresta.getDestino().getId().equals(no.getId())){
+            for (Aresta aresta : this.arestas) {
+                if (aresta.getDestino() == no) {
                     grau++;
                 }
-                if(aresta.getOrigem().getId().equals(no.getId())){
+                if (aresta.getOrigem() == no) {
                     grau++;
                 }
                 grausDosNos.put(no, grau);
@@ -47,13 +47,13 @@ public class Grafo {
         }
         return grausDosNos;
     }
-    
-    public Map<No, Integer> getGrausDeEmissao(){
+
+    public Map<No, Integer> getGrausDeEmissao() {
         Map<No, Integer> grausDosNos = new HashMap<No, Integer>();
         for (No no : this.nos) {
             int grau = 0;
-            for(Aresta aresta : this.arestas){
-                if(aresta.getOrigem().getId() == no.getId()){
+            for (Aresta aresta : this.arestas) {
+                if (aresta.getOrigem() == no) {
                     grau++;
                 }
                 grausDosNos.put(no, grau);
@@ -61,13 +61,13 @@ public class Grafo {
         }
         return grausDosNos;
     }
-    
-    public Map<No, Integer> getGrausDeRecepcao(){
+
+    public Map<No, Integer> getGrausDeRecepcao() {
         Map<No, Integer> grausDosNos = new HashMap<No, Integer>();
         for (No no : this.nos) {
             int grau = 0;
-            for(Aresta aresta : this.arestas){
-                if(aresta.getDestino().getId() == no.getId()){
+            for (Aresta aresta : this.arestas) {
+                if (aresta.getDestino() == no) {
                     grau++;
                 }
                 grausDosNos.put(no, grau);
@@ -75,43 +75,43 @@ public class Grafo {
         }
         return grausDosNos;
     }
-    
-    public int[][] getMatrizAdjacencia(){
+
+    public int[][] getMatrizAdjacencia() {
         int matriz[][] = new int[this.nos.size()][this.nos.size()];
         Map<No, Integer> nosDoGrafo = new HashMap<No, Integer>();
         int i = 0;
-        for(No no: this.nos){
+        for (No no : this.nos) {
             nosDoGrafo.put(no, i);
             i++;
         }
-        for(Aresta aresta: this.arestas){
+        for (Aresta aresta : this.arestas) {
             matriz[nosDoGrafo.get(aresta.getOrigem())][nosDoGrafo.get(aresta.getDestino())] = 1;
             matriz[nosDoGrafo.get(aresta.getDestino())][nosDoGrafo.get(aresta.getOrigem())] = 1;
         }
         return matriz;
     }
-    
-    public int[][] getMatrizIncidencia(){
+
+    public int[][] getMatrizIncidencia() {
         int matriz[][] = new int[this.nos.size()][this.arestas.size()];
         Map<No, Integer> nosDoGrafo = new HashMap<No, Integer>();
         Map<Aresta, Integer> arestasDoGrafo = new HashMap<Aresta, Integer>();
         int i = 0;
-        for(No no: this.nos){
+        for (No no : this.nos) {
             nosDoGrafo.put(no, i);
             i++;
         }
-        i=0;
-        for(Aresta aresta: this.arestas){
+        i = 0;
+        for (Aresta aresta : this.arestas) {
             arestasDoGrafo.put(aresta, i);
             i++;
         }
-        for(Aresta aresta: this.arestas){
+        for (Aresta aresta : this.arestas) {
             matriz[nosDoGrafo.get(aresta.getOrigem())][arestasDoGrafo.get(aresta)] = 1;
             matriz[nosDoGrafo.get(aresta.getDestino())][arestasDoGrafo.get(aresta)] = 1;
         }
         return matriz;
     }
-    
+
     public String getId() {
         return id;
     }
