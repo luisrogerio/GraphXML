@@ -36,10 +36,10 @@ public class Grafo {
         for (No no : this.nos) {
             int grau = 0;
             for (Aresta aresta : this.arestas) {
-                if (aresta.getDestino() == no) {
+                if (aresta.getDestino().getId().equals(no.getId())) {
                     grau++;
                 }
-                if (aresta.getOrigem() == no) {
+                if (aresta.getOrigem().getId().equals(no.getId())) {
                     grau++;
                 }
                 grausDosNos.put(no, grau);
@@ -53,7 +53,7 @@ public class Grafo {
         for (No no : this.nos) {
             int grau = 0;
             for (Aresta aresta : this.arestas) {
-                if (aresta.getOrigem() == no) {
+                if (aresta.getOrigem().getId().equals(no.getId())) {
                     grau++;
                 }
                 grausDosNos.put(no, grau);
@@ -67,7 +67,7 @@ public class Grafo {
         for (No no : this.nos) {
             int grau = 0;
             for (Aresta aresta : this.arestas) {
-                if (aresta.getDestino() == no) {
+                if (aresta.getDestino().getId().equals(no.getId())) {
                     grau++;
                 }
                 grausDosNos.put(no, grau);
