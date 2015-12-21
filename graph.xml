@@ -1,0 +1,9 @@
+<graph id="tretre" edgedefault="directed">
+  <node id="BLUEBERRY"/>
+  <node id="GRAPE"/>
+  <node id="APPLE"/>
+  <edge id="A1" source="BLUEBERRY" target="GRAPE"/>
+  <edge id="A2" source="BLUEBERRY" target="APPLE"/>
+  <edge id="A3" source="GRAPE" target="APPLE"/>
+  <edge id="A4" source="APPLE" target="GRAPE"/>
+</graph>
