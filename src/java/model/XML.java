@@ -36,7 +36,18 @@ public class XML {
     public static void salvaGrafo(Grafo grafo, String path) {
         inicializaXStream();
         try {
-            File arquivo = new File(path + "../../graph.xml"); 
+            File arquivo = new File(path + "../../Grafo/graph.xml"); 
+            xstream.toXML(grafo, new FileWriter(arquivo));
+            System.out.println("CAMINHO PARA O ARQUIVO: "+arquivo.getCanonicalPath());
+        } catch (IOException ex) {
+            System.err.println("Erro ao abrir arquivo! ");
+        }
+    }
+    
+    public static void salvaGrafo(Grafo grafo, String path, String nome) {
+        inicializaXStream();
+        try {
+            File arquivo = new File(path + "../../Grafo/"+nome+".xml"); 
             xstream.toXML(grafo, new FileWriter(arquivo));
             System.out.println("CAMINHO PARA O ARQUIVO: "+arquivo.getCanonicalPath());
         } catch (IOException ex) {
