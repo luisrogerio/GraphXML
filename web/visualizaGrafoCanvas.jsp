@@ -13,8 +13,8 @@
         <script type="text/javascript" src="js/lib/dracula_algorithms.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
-                var width = $(document).width() - 100;
-                var height = $(document).height() - 200;
+                var width = $(document).width();
+                var height = $(document).height();
                 var g = new Graph();
 
                 Dracula.Edge.style.directed =<c:choose>
@@ -36,6 +36,8 @@
 
 
                     });
+
+
         </script>
         <style>
             body{
@@ -52,8 +54,12 @@
             <br />
             <script>
                 $("#reorganizar").click(function () {
-                    location.reload(true);
-                });
+                    var layouter = new Graph.Layout.Spring(g);
+                    var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
+                    layouter.layout();
+                    renderer.draw();
+                })
+                        ;
             </script>
     </body>
 </html>
