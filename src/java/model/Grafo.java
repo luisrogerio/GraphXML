@@ -107,7 +107,7 @@ public class Grafo {
         return matriz;
     }
 
-    public public String getId() {
+    public String getId() {
         return id;
     }
 
