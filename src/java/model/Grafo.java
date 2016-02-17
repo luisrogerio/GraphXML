@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -155,35 +156,55 @@ public class Grafo {
         this.tipoAresta = tipoAresta;
     }
 
-    public Map<No, Integer> calcularDijkstra(No inicio) {
-        List<Aresta> arestasGrafo = this.getArestas();
-        List<No> nosGrafo = this.getNos();
-        int valorDistancia;
-        Map<No, Integer> dijkstra = new HashMap();
-        List<Aresta> arestasDoNoAtual;
-
-        for (No noAtual : nosGrafo) {
-            if (inicio.getId().equals(noAtual.getId())) { //se o nó esta tentando calcular a distancia para ele mesmo
-                valorDistancia = 0;
-                dijkstra.put(noAtual, valorDistancia);
+    public Map<String, String> calcularDijkstra(No inicio) {
+        Map<String, Integer> dijkstraListaEstimativas = new HashMap<String, Integer>();
+        Map<String, String> dijkstraListaPrecedentes = new HashMap<String, String>();
+        List<String> listaVarridos = new ArrayList<String>();
+        List<Aresta> arestasAdjacentes = new ArrayList<Aresta>();
+        String noSelecionado = null, proximoNoSelecionado = null;
+        int menorEstimativa = 0;
+        for (No no : this.nos) {
+            dijkstraListaPrecedentes.put(no.getId(), "0");
+            if(inicio.getId().equals(no.getId())) {
+                noSelecionado = no.getId();
+                dijkstraListaEstimativas.put(no.getId(), 0);
+                dijkstraListaPrecedentes.put(no.getId(), no.getId());
             } else {
-                arestasDoNoAtual = 
-                for ( ) {
-
-                    if () {
-
-                    }
-                }
+                dijkstraListaEstimativas.put(no.getId(), Integer.MAX_VALUE);
             }
         }
-
+        do {
+            listaVarridos.add(noSelecionado);
+            arestasAdjacentes = getArestasDoNoAtual(No.getNoById(noSelecionado, this.nos));
+            menorEstimativa = dijkstraListaEstimativas.get(arestasAdjacentes.get(0).getDestino().getId());
+            
+            for (Aresta arestaAdjacente : arestasAdjacentes) {
+                dijkstraListaPrecedentes.replace(arestaAdjacente.getDestino().getId(), noSelecionado);
+                dijkstraListaEstimativas.replace(arestaAdjacente.getDestino().getId(), 
+                        arestaAdjacente.getValor() 
+                        + dijkstraListaEstimativas.get(noSelecionado));
+                if(menorEstimativa >= dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId())){
+                    menorEstimativa = dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId());
+                    proximoNoSelecionado = arestaAdjacente.getDestino().getId();
+                }
+            }
+            noSelecionado = proximoNoSelecionado;
+        } while(listaVarridos.size() != this.nos.size());
+        
+        
+        return dijkstraListaPrecedentes;
     }
 
-    public int calcularDijkstra(No inicio, No destino) {
-        List<Aresta> arestasGrafo = this.getArestas();
-        List<No> nosGrafo = this.getNos();
-        int valorDistancia;
-        List<Aresta> arestasDoNoAtual;
+    public List<No> calcularDijkstra(No inicio, No destino) {
+        Map<String, String> listaPrecedentes = calcularDijkstra(inicio);
+        List<No> caminho = new ArrayList<No>();
+        String noAnterior = destino.getId();
+        do {
+            caminho.add(No.getNoById(noAnterior, nos));
+            noAnterior = listaPrecedentes.get(destino.getId());
+        }while(!noAnterior.equals(inicio.getId()));
+        
+        return caminho;
     }
 
     public List<Aresta> getArestasDoNoAtual(No no) {
