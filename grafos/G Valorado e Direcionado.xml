@@ -1,0 +1,9 @@
+<graph id="G Valorado e Direcionado" edgedefault="directed" tipoAresta="true">
+  <node id="C"/>
+  <node id="D"/>
+  <node id="F"/>
+  <node id="G"/>
+  <edge id="Aresta 1" source="G" target="C" valor="3"/>
+  <edge id="Aresta 2" source="G" target="F" valor="-6"/>
+  <edge id="Aresta 3" source="F" target="C" valor="6"/>
+</graph>

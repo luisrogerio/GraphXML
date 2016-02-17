@@ -1,0 +1,60 @@
+input, button, .botoes {
+    /* padding:5px; */
+    border:1px solid #999;
+    padding: 8px 12px;
+    border-radius:4px;
+    -moz-border-radius:4px;
+    -web-kit-border-radius:4px;
+    -khtml-border-radius:4px;
+} 
+
+input[type="number"] {
+    width:55px;
+}
+.corBotao{
+    color: #fff;
+    background-color: #0068B4;
+    text-decoration: none;
+}
+.bnt{
+    display: inline-block;
+    background-color: #ccc;
+    color: #444;
+    border-radius: 4px;
+    padding: 8px 12px;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    border: 0px;
+
+}
+.bntExcluir{
+    color: #fff;
+    background-color: #ff0000;
+}
+.divEsquerda{
+    width:50%;
+    top:95px;
+    float:left;
+
+}
+.divDireita{
+    width:50%;
+    top:95px;
+    float:right;
+
+}
+#botaoVoltar{
+    clear:both;
+    float:left;
+    bottom:60px;
+    margin: 0;
+}
+.semQuebraDeLinha{
+    white-space: nowrap;
+    display: inline; 
+}
+.margem{
+    margin-top: 15px;
+}

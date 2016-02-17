@@ -1,0 +1,9 @@
+<graph id="GDirecionado" edgedefault="directed" tipoAresta="false">
+  <node id="F"/>
+  <node id="Q"/>
+  <node id="W"/>
+  <edge id="A1" source="F" target="Q"/>
+  <edge id="A2" source="F" target="W"/>
+  <edge id="A3" source="F" target="F"/>
+  <edge id="A4" source="Q" target="W"/>
+</graph>

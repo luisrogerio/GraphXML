@@ -1,0 +1,5 @@
+<graph id="grafo valorado" edgedefault="undirected" tipoAresta="true">
+  <node id="A"/>
+  <node id="S"/>
+  <edge id="Aresta 1" source="A" target="S" valor="13"/>
+</graph>

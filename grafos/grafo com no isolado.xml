@@ -1,0 +1,12 @@
+<graph id="grafo" edgedefault="directed" tipoAresta="true">
+  <node id="A"/>
+  <node id="B"/>
+  <node id="C"/>
+  <node id="D"/>
+  <node id="E"/>
+  <node id="F"/>
+  <edge id="Aresta 1" source="F" target="B" valor="-3"/>
+  <edge id="Aresta 2" source="D" target="E" valor="0"/>
+  <edge id="Aresta 3" source="B" target="A" valor="10"/>
+  <edge id="Aresta 4" source="B" target="D" valor="-100"/>
+</graph>

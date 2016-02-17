@@ -1,0 +1,7 @@
+<graph id="teste grau emissao" edgedefault="directed" tipoAresta="false">
+  <node id="A"/>
+  <node id="B"/>
+  <node id="C"/>
+  <edge id="A1" source="A" target="B"/>
+  <edge id="A2" source="A" target="C"/>
+</graph>

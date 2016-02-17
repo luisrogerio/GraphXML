@@ -1,0 +1,19 @@
+<graph id="djkstra" edgedefault="directed" tipoAresta="true">
+  <node id="A"/>
+  <node id="S"/>
+  <node id="D"/>
+  <node id="F"/>
+  <node id="G"/>
+  <edge id="Aresta 1" source="A" target="S" valor="5"/>
+  <edge id="Aresta 2" source="S" target="D" valor="7"/>
+  <edge id="Aresta 3" source="D" target="G" valor="3"/>
+  <edge id="Aresta 4" source="G" target="S" valor="5"/>
+  <edge id="Aresta 5" source="S" target="A" valor="8"/>
+  <edge id="Aresta 6" source="D" target="A" valor="3"/>
+  <edge id="Aresta 7" source="F" target="G" valor="6"/>
+  <edge id="Aresta 8" source="F" target="S" valor="9"/>
+  <edge id="Aresta 9" source="A" target="D" valor="4"/>
+  <edge id="Aresta 10" source="G" target="D" valor="6"/>
+  <edge id="Aresta 11" source="G" target="F" valor="9"/>
+  <edge id="Aresta 12" source="S" target="F" valor="2"/>
+</graph>
