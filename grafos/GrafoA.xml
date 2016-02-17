@@ -1,4 +1,4 @@
-<graph id="GrafoA" edgedefault="undirected" tipoAresta="false">
+<graph id="GrafoA" edgedefault="directed" tipoAresta="false">
   <node id="A"/>
   <node id="B"/>
   <node id="C"/>
