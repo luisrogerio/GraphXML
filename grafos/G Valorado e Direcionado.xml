@@ -6,4 +6,5 @@
   <edge id="Aresta 1" source="G" target="C" valor="3"/>
   <edge id="Aresta 2" source="G" target="F" valor="-6"/>
   <edge id="Aresta 3" source="F" target="C" valor="6"/>
+  <edge id="Aresta 4" source="C" target="F" valor="-3"/>
 </graph>

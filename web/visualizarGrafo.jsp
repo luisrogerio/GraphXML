@@ -20,8 +20,9 @@
                 <c:when test="${grafo.tipo == 'directed'}">Direcionado</c:when>
                 <c:otherwise>Não-Direcionado</c:otherwise>
             </c:choose>
-            <br />
+            <br /><br />
             <a href="visualizaGrafoCanvas.jsp" class="bnt">Ver grafo</a>
+            Editar o Grafo: <a href="editarGrafo.jsp" class="corBotao botoes">Editar</a>
         </h3>
         <div class="divEsquerda">
             <p>Nós:</p>
@@ -48,7 +49,30 @@
             <p>Ordem do Grafo:</p>
             <p><c:out value="${ordemGrafo}"></c:out></p>
 
-            </div>
+                <p>Arestas Incidentes:</p>
+                <ul>
+                <c:forEach items="${grafo.arestas}" var="aresta">
+                    <li><c:out value="${aresta.id}"></c:out>: <c:out value="${aresta.origem.id} e ${aresta.destino.id}"></c:out></li>
+                    </c:forEach>
+            </ul>
+
+            <p>Vertices Adjacentes: </p>
+            <ul>
+                <c:forEach items="${mapaVerticesAdj}" var="vertice">
+                    <li>
+                        <c:out value="${vertice.key.id}:"></c:out>
+                        <c:forEach items="${vertice.value}" var="verticesAdj">
+                            <c:out value="${verticesAdj.id}   "></c:out>
+                        </c:forEach>
+                    </li>
+                </c:forEach>
+            </ul>
+
+        </div>
+
+
+
+
         <c:if test="${tipoGrafoArestas}">
             <div class="divDireita">
                 <p>Grau de emissão:</p>

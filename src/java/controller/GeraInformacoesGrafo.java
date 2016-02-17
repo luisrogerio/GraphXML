@@ -1,14 +1,11 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -42,7 +39,6 @@ public class GeraInformacoesGrafo extends HttpServlet {
         Map mapaOrganizadoGraus = new TreeMap(comparator);
 
         request.setAttribute("tipoGrafoArestas", grafoCarregado.getTipoAresta());
-        int[][] matriz = grafoCarregado.getMatrizAdjacencia();
         if (grafoCarregado.getTipo().equals("directed")) {
             Map mapaOrganizadoGrauEmissao = new TreeMap(comparator);
             Map mapaOrganizadoGrauRecepcao = new TreeMap(comparator);
@@ -55,12 +51,13 @@ public class GeraInformacoesGrafo extends HttpServlet {
             
             //request.setAttribute("listaNosAntecessores", CarregaGrafoController.criaListaAntecessores(grafoCarregado));
             //request.setAttribute("listaNosSucessores", CarregaGrafoController.criaListaSucessores(grafoCarregado));
-        }// else {
+        }
+        request.setAttribute("mapaVerticesAdj", grafoCarregado.getMapaVerticesAdjacentes(grafoCarregado.getNos()));
         mapaOrganizadoGraus.putAll(grafoCarregado.getGraus());
         request.setAttribute("nosComGrau", mapaOrganizadoGraus);
         request.setAttribute("ordemGrafo", grafoCarregado.getOrdem());
         //request.setAttribute("nosIsolados", grafoCarregado.);
-        //}
+  
         //request.setAttribute("listaVerticesIndependentes", CarregaGrafoController.listaVerticesIndependentes(grafoCarregado, grafoCarregado.getMatrizAdjacencia()));
         //request.setAttribute("listaArestasIndependentes", CarregaGrafoController.listaArestasIndependentes(grafoCarregado, grafoCarregado.getMatrizAdjacencia()));
         

@@ -106,7 +106,7 @@ public class Grafo {
         return matriz;
     }
 
-    public String getId() {
+    public public String getId() {
         return id;
     }
 
@@ -189,10 +189,35 @@ public class Grafo {
     public List<Aresta> getArestasDoNoAtual(No no) {
         List<Aresta> arestasDoNoAtual = new ArrayList();
         for (Aresta aresta : this.getArestas()) {
-            if (aresta.getOrigem().getId().equals(no.getId())) {
+            if (aresta.getOrigem().getId().equals(no.getId()) || aresta.getDestino().getId().equals(no.getId())) {
                 arestasDoNoAtual.add(aresta);
             }
         }
         return arestasDoNoAtual;
+    }
+
+    public List<No> gerarVerticesAdjacentes(No no) {//funcao para criar a lista de vertices adjacentes.
+        List<Aresta> arestasDoNo = this.getArestasDoNoAtual(no);
+        List<No> nosAdjacentes = new ArrayList();
+
+        for (Aresta arestaAtual : arestasDoNo) {
+            nosAdjacentes.add(arestaAtual.getDestino());
+            if (no.getId().equals(arestaAtual.getOrigem())) {
+                nosAdjacentes.add(arestaAtual.getOrigem());
+            }
+        }
+        return nosAdjacentes;
+    }
+
+    public Map<No, List<No>> getMapaVerticesAdjacentes(List<No> nos) {
+        Map<No, List<No>> mapaVerticesAdj = new HashMap();
+        List<No> nosAdj = new ArrayList();
+        for (No noAtual : nos) {
+            nosAdj = this.gerarVerticesAdjacentes(noAtual);
+            if (!nosAdj.isEmpty()) {
+                mapaVerticesAdj.put(noAtual, nosAdj);
+            }
+        }
+        return mapaVerticesAdj;
     }
 }
