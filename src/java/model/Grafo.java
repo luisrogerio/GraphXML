@@ -128,12 +128,7 @@ public class Grafo {
     }
 
     public No getNo(String id) {
-        for (No no : this.nos) {
-            if (id.equals(no.getId())) {
-                return no;
-            }
-        }
-        return null;
+        return No.getNoById(id, this.nos);
     }
 
     public void setNos(List<No> nos) {
@@ -160,7 +155,7 @@ public class Grafo {
         Map<String, Integer> dijkstraListaEstimativas = new HashMap<String, Integer>();
         Map<String, String> dijkstraListaPrecedentes = new HashMap<String, String>();
         List<String> listaVarridos = new ArrayList<String>();
-        List<Aresta> arestasAdjacentes = new ArrayList<Aresta>();
+        List<Aresta> arestasAdjacentes = null;
         String noSelecionado = null, proximoNoSelecionado = null;
         int menorEstimativa = 0;
         for (No no : this.nos) {
@@ -200,7 +195,7 @@ public class Grafo {
         List<No> caminho = new ArrayList<No>();
         String noAnterior = destino.getId();
         do {
-            caminho.add(No.getNoById(noAnterior, nos));
+            caminho.add(this.getNo(noAnterior));
             noAnterior = listaPrecedentes.get(destino.getId());
         }while(!noAnterior.equals(inicio.getId()));
         

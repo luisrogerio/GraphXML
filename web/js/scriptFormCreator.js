@@ -15,7 +15,7 @@ $(function () {
     });
     $('#adiconaAresta').live('click', function () {
         if (!$("#gValorado").attr("checked")) {
-            $('<p><input type="text" id="aresta' + j + '" size="20" name="arestas" value="" placeholder="A,B" /> \n\
+            $('<p><input type="text" id="aresta' + j + '" size="20" name="arestas" value="" placeholder="A,B" /> <input type="number" name="valorAresta" style="visible:hidden;" value="" placeholder="10"/>\n\
             <a href="#" id="removerAresta" class="bnt bntExcluir">Remove</a></p>').appendTo(arestas);
         } else {
             $('<p><input type="text" id="aresta' + j + '" size="20" name="arestas" value="" placeholder="A,B" /> <input type="number" name="valorAresta" value="" placeholder="10"/>\n\

@@ -1,7 +1,8 @@
 package controller;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,19 +26,23 @@ public class CalcularDijkstra extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Grafo grafo = (Grafo) request.getSession().getAttribute("grafo");
-        String nomeNoOrigem = (String) request.getAttribute("noOrigem");
-        String nomeNoDestino = (String) request.getAttribute("noDestino");
+        String nomeNoOrigem = request.getParameter("noOrigem");
+        String nomeNoDestino = request.getParameter("noDestino");
         No noOrigem = grafo.getNo(nomeNoOrigem);
         if ("todosNos".equals(nomeNoDestino)) {
-            Map<No, Integer> mapaDijkstra = grafo.calcularDijkstra(noOrigem);
-            request.setAttribute("mapaDijkstra", mapaDijkstra);
+            List<List<No>> caminhosDaOrigem = new ArrayList<List<No>>();
+            for (No no: grafo.getNos()) {
+                List<No> caminho = grafo.calcularDijkstra(noOrigem, grafo.getNo(nomeNoDestino));
+                caminhosDaOrigem.add(caminho);
+            }
+            request.setAttribute("caminhosDaOrigem", caminhosDaOrigem);
         } else {
             No noDestino = grafo.getNo(nomeNoDestino);
-            int distancia = grafo.calcularDijkstra(noOrigem, noDestino);
-            request.setAttribute("intDijkstra", distancia);
+            List<No> caminho = grafo.calcularDijkstra(noOrigem, noDestino);
+            request.setAttribute("caminho", caminho);
             request.setAttribute("noDestino", nomeNoDestino);
         }
-        request.setAttribute("NomeNoOrigem", nomeNoOrigem);
+        request.setAttribute("nomeNoOrigem", nomeNoOrigem);
         getServletContext().getRequestDispatcher("/dijkstra.jsp").forward(request, response);
     }
 
