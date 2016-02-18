@@ -165,7 +165,7 @@ public class Grafo {
         int menorEstimativa = 0;
         for (No no : this.nos) {
             dijkstraListaPrecedentes.put(no.getId(), "0");
-            if(inicio.getId().equals(no.getId())) {
+            if (inicio.getId().equals(no.getId())) {
                 noSelecionado = no.getId();
                 dijkstraListaEstimativas.put(no.getId(), 0);
                 dijkstraListaPrecedentes.put(no.getId(), no.getId());
@@ -177,21 +177,20 @@ public class Grafo {
             listaVarridos.add(noSelecionado);
             arestasAdjacentes = getArestasDoNoAtual(No.getNoById(noSelecionado, this.nos));
             menorEstimativa = dijkstraListaEstimativas.get(arestasAdjacentes.get(0).getDestino().getId());
-            
+
             for (Aresta arestaAdjacente : arestasAdjacentes) {
                 dijkstraListaPrecedentes.replace(arestaAdjacente.getDestino().getId(), noSelecionado);
-                dijkstraListaEstimativas.replace(arestaAdjacente.getDestino().getId(), 
-                        arestaAdjacente.getValor() 
+                dijkstraListaEstimativas.replace(arestaAdjacente.getDestino().getId(),
+                        arestaAdjacente.getValor()
                         + dijkstraListaEstimativas.get(noSelecionado));
-                if(menorEstimativa >= dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId())){
+                if (menorEstimativa >= dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId())) {
                     menorEstimativa = dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId());
                     proximoNoSelecionado = arestaAdjacente.getDestino().getId();
                 }
             }
             noSelecionado = proximoNoSelecionado;
-        } while(listaVarridos.size() != this.nos.size());
-        
-        
+        } while (listaVarridos.size() != this.nos.size());
+
         return dijkstraListaPrecedentes;
     }
 
@@ -202,8 +201,8 @@ public class Grafo {
         do {
             caminho.add(No.getNoById(noAnterior, nos));
             noAnterior = listaPrecedentes.get(destino.getId());
-        }while(!noAnterior.equals(inicio.getId()));
-        
+        } while (!noAnterior.equals(inicio.getId()));
+
         return caminho;
     }
 
@@ -230,14 +229,31 @@ public class Grafo {
         return nosAdjacentes;
     }
 
-    public Map<No, List<No>> getMapaVerticesAdjacentes(List<No> nos) {
-        Map<No, List<No>> mapaVerticesAdj = new HashMap();
-        List<No> nosAdj = new ArrayList();
-        for (No noAtual : nos) {
-            nosAdj = this.gerarVerticesAdjacentes(noAtual);
-            if (!nosAdj.isEmpty()) {
-                mapaVerticesAdj.put(noAtual, nosAdj);
+    public Map<String, List<String>> getMapaVerticesAdjacentes(List<No> nos) {
+        Map<Integer, String> posicaoNosDoGrafo = new HashMap<Integer, String>();
+        int[][] matrizAdj = this.getMatrizAdjacencia();
+        int i = 0, j = 0;
+        String nomeNo;
+        Map<String, List<String>> mapaVerticesAdj;
+        List<String> nosAdj = new ArrayList();
+        
+        for (No no : this.nos) {
+            posicaoNosDoGrafo.put(i, no.getId());
+            i++;
+        }
+        while (i < nos.size()) {
+            nosAdj
+            while (j < nos.size()) {
+                if (matrizAdj[j][i] == 1) {
+                    nomeNo = posicaoNosDoGrafo.get(j);
+                    nosAdj.add(nomeNo);                    
+                }
+                j++;
             }
+            if(nosAdj.size() > 1){
+                
+            }
+            i++;
         }
         return mapaVerticesAdj;
     }
