@@ -11,17 +11,26 @@
     <body>
         <h3>Grafo: <c:out value="${grafo.id}"></c:out> 
             <c:choose>
-                <c:when test="${not empty mapaDijkstra}">
-                    Distancia do nó <c:out value="${nomeNoOrigem}"></c:out> para todos os outros:
+                <c:when test="${not empty caminhosDaOrigem}">
+                    Caminhos do nó <c:out value="${nomeNoOrigem}"></c:out> para todos os outros:
                     <ul>
-                        <c:forEach items="${mapaDijkstra}" var="no">
-                            <li><c:out value="${no.key.id}"></c:out>: <c:out value="${no.value}"></c:out></li>
+                        <c:forEach items="${caminhosDaOrigem}" var="caminho">
+                            <li>
+                            <c:forEach items="${caminho}" var="no">
+                                ${no.id} - 
+                            </c:forEach>
+                            </li>
                         </c:forEach>
                     </ul>
                 </c:when>
                 <c:otherwise>
-                    Distancia do nó <c:out value="${nomeNoOrigem}"></c:out> para o nó <c:out value="${noDestino}"></c:out>:
-                    <c:out value="${intDijkstra}"></c:out>
+                    Caminho do nó <c:out value="${nomeNoOrigem}"></c:out> para o nó <c:out value="${noDestino}"></c:out>:
+                    <ul><li>
+                            <c:forEach items="${caminho}" var="no">
+                                ${no.id} - 
+                            </c:forEach>
+                            </li>
+                    </ul>
                 </c:otherwise>
             </c:choose>
     </body>
