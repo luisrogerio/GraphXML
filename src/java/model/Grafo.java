@@ -160,7 +160,7 @@ public class Grafo {
         int menorEstimativa = 0;
         for (No no : this.nos) {
             dijkstraListaPrecedentes.put(no.getId(), "0");
-            if(inicio.getId().equals(no.getId())) {
+            if (inicio.getId().equals(no.getId())) {
                 noSelecionado = no.getId();
                 dijkstraListaEstimativas.put(no.getId(), 0);
                 dijkstraListaPrecedentes.put(no.getId(), no.getId());
@@ -171,22 +171,40 @@ public class Grafo {
         do {
             listaVarridos.add(noSelecionado);
             arestasAdjacentes = getArestasDoNoAtual(No.getNoById(noSelecionado, this.nos));
-            menorEstimativa = dijkstraListaEstimativas.get(arestasAdjacentes.get(0).getDestino().getId());
-            
+            if (arestasAdjacentes.get(0).getOrigem().getId().equals(noSelecionado)) {
+                menorEstimativa = dijkstraListaEstimativas.get(arestasAdjacentes.get(0).getDestino().getId());
+            } else {
+                menorEstimativa = dijkstraListaEstimativas.get(arestasAdjacentes.get(0).getOrigem().getId());
+            }
+
             for (Aresta arestaAdjacente : arestasAdjacentes) {
-                dijkstraListaPrecedentes.replace(arestaAdjacente.getDestino().getId(), noSelecionado);
-                dijkstraListaEstimativas.replace(arestaAdjacente.getDestino().getId(), 
-                        arestaAdjacente.getValor() 
-                        + dijkstraListaEstimativas.get(noSelecionado));
-                if(menorEstimativa >= dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId())){
-                    menorEstimativa = dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId());
-                    proximoNoSelecionado = arestaAdjacente.getDestino().getId();
+                if (arestaAdjacente.getOrigem().getId().equals(noSelecionado)) {
+                    dijkstraListaPrecedentes.replace(arestaAdjacente.getDestino().getId(), noSelecionado);
+                    dijkstraListaEstimativas.replace(arestaAdjacente.getDestino().getId(),
+                            arestaAdjacente.getValor()
+                            + dijkstraListaEstimativas.get(noSelecionado));
+                } else {
+                    dijkstraListaPrecedentes.replace(arestaAdjacente.getOrigem().getId(), noSelecionado);
+                    dijkstraListaEstimativas.replace(arestaAdjacente.getOrigem().getId(),
+                            arestaAdjacente.getValor()
+                            + dijkstraListaEstimativas.get(noSelecionado));
                 }
+                if (arestaAdjacente.getOrigem().getId().equals(noSelecionado)) {
+                    if (menorEstimativa >= dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId())) {
+                        menorEstimativa = dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId());
+                        proximoNoSelecionado = arestaAdjacente.getDestino().getId();
+                    }
+                } else {
+                    if (menorEstimativa >= dijkstraListaEstimativas.get(arestaAdjacente.getOrigem().getId())) {
+                        menorEstimativa = dijkstraListaEstimativas.get(arestaAdjacente.getOrigem().getId());
+                        proximoNoSelecionado = arestaAdjacente.getOrigem().getId();
+                    }
+                }
+
             }
             noSelecionado = proximoNoSelecionado;
-        } while(listaVarridos.size() != this.nos.size());
-        
-        
+        } while (listaVarridos.size() != this.nos.size());
+
         return dijkstraListaPrecedentes;
     }
 
@@ -197,8 +215,8 @@ public class Grafo {
         do {
             caminho.add(this.getNo(noAnterior));
             noAnterior = listaPrecedentes.get(destino.getId());
-        }while(!noAnterior.equals(inicio.getId()));
-        
+        } while (!noAnterior.equals(inicio.getId()));
+
         return caminho;
     }
 
