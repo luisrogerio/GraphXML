@@ -163,7 +163,7 @@ public class Grafo {
         Map<String, String> dijkstraListaPrecedentes = new HashMap<String, String>();
         List<String> listaVarridos = new ArrayList<String>();
         List<Aresta> arestasAdjacentes = null;
-        String noSelecionado = null, proximoNoSelecionado = null;
+        String noSelecionado = null;
         int menorEstimativa = 0;
         for (No no : this.nos) {
             dijkstraListaPrecedentes.put(no.getId(), "0");
@@ -175,31 +175,46 @@ public class Grafo {
                 dijkstraListaEstimativas.put(no.getId(), Integer.MAX_VALUE);
             }
         }
-        do {
+        while (listaVarridos.size() != this.nos.size()) {
             listaVarridos.add(noSelecionado);
-            arestasAdjacentes = getArestasQueSaemDoNoAtual(No.getNoById(noSelecionado, this.nos));
-            if (arestasAdjacentes.get(0).getOrigem().getId().equals(noSelecionado)) {
-                menorEstimativa = dijkstraListaEstimativas.get(arestasAdjacentes.get(0).getDestino().getId());
-            }
-
-            for (Aresta arestaAdjacente : arestasAdjacentes) {
-                if (arestaAdjacente.getOrigem().getId().equals(noSelecionado)) {
-                    dijkstraListaPrecedentes.replace(arestaAdjacente.getDestino().getId(), noSelecionado);
-                    dijkstraListaEstimativas.replace(arestaAdjacente.getDestino().getId(),
-                            arestaAdjacente.getValor()
-                            + dijkstraListaEstimativas.get(noSelecionado));
+            arestasAdjacentes = getArestasQueSaemDoNoAtualDijkstra(No.getNoById(noSelecionado, this.nos), listaVarridos);
+            if (!arestasAdjacentes.isEmpty()) {
+                if (arestasAdjacentes.get(0).getOrigem().getId().equals(noSelecionado)) {
+                    menorEstimativa = dijkstraListaEstimativas.get(arestasAdjacentes.get(0).getDestino().getId());
                 }
-                if (arestaAdjacente.getOrigem().getId().equals(noSelecionado)) {
-                    if (menorEstimativa > dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId())) {
-                        menorEstimativa = dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId());
-                        proximoNoSelecionado = arestaAdjacente.getDestino().getId();
+
+                for (Aresta arestaAdjacente : arestasAdjacentes) {
+                    if (arestaAdjacente.getOrigem().getId().equals(noSelecionado)) {
+                        dijkstraListaPrecedentes.replace(arestaAdjacente.getDestino().getId(), noSelecionado);
+                        dijkstraListaEstimativas.replace(arestaAdjacente.getDestino().getId(),
+                                arestaAdjacente.getValor()
+                                + dijkstraListaEstimativas.get(noSelecionado));
+                    }
+                    if (arestaAdjacente.getOrigem().getId().equals(noSelecionado)) {
+                        if (menorEstimativa > dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId())) {
+                            dijkstraListaPrecedentes.replace(arestaAdjacente.getDestino().getId(), noSelecionado);
+                            menorEstimativa = dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId());
+                        }
                     }
                 }
-
+            noSelecionado = this.menorEstimativaDijkstra(dijkstraListaEstimativas, listaVarridos);
             }
-            noSelecionado = proximoNoSelecionado;
-        } while (listaVarridos.size() != this.nos.size());
+        }
         return dijkstraListaPrecedentes;
+    }
+
+    public String menorEstimativaDijkstra(Map<String, Integer> listaEstimativas, List<String> listaVarridos) {
+        String verticeMenor = null;
+        int menorEstimativa = Integer.MAX_VALUE;
+        for (Map.Entry<String, Integer> mapa : listaEstimativas.entrySet()) {
+            String origem = mapa.getKey();
+            int estimativa = mapa.getValue();
+            if ((menorEstimativa > estimativa) && !listaVarridos.contains(origem)) {
+                menorEstimativa = estimativa;
+                verticeMenor = origem;
+            }
+        }
+        return verticeMenor;
     }
 
     public List<No> calcularDijkstra(No inicio, No destino) {
@@ -224,11 +239,11 @@ public class Grafo {
         }
         return arestasDoNoAtual;
     }
-    
-    public List<Aresta> getArestasQueSaemDoNoAtual(No no) {
+
+    public List<Aresta> getArestasQueSaemDoNoAtualDijkstra(No no, List<String> listaVarridos) {
         List<Aresta> arestasDoNoAtual = new ArrayList();
         for (Aresta aresta : this.getArestas()) {
-            if (aresta.getOrigem().getId().equals(no.getId())) {
+            if ((aresta.getOrigem().getId().equals(no.getId())) && !listaVarridos.contains(aresta.getDestino().getId())) {
                 arestasDoNoAtual.add(aresta);
             }
         }
@@ -456,7 +471,7 @@ public class Grafo {
             if ((diferencaEntreArestas.contains(aresta.getOrigem().getId()) && verticesArvore.contains(aresta.getDestino().getId()))) {
                 return aresta;
             }
-            if ((diferencaEntreArestas.contains(aresta.getDestino().getId()) && verticesArvore.contains(aresta.getOrigem().getId()))){
+            if ((diferencaEntreArestas.contains(aresta.getDestino().getId()) && verticesArvore.contains(aresta.getOrigem().getId()))) {
                 return new Aresta(aresta.getId(), aresta.getDestino(), aresta.getOrigem(), aresta.getValor());
             }
         }
