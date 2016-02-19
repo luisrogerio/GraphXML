@@ -190,7 +190,7 @@ public class Grafo {
                             + dijkstraListaEstimativas.get(noSelecionado));
                 }
                 if (arestaAdjacente.getOrigem().getId().equals(noSelecionado)) {
-                    if (menorEstimativa >= dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId())) {
+                    if (menorEstimativa > dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId())) {
                         menorEstimativa = dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId());
                         proximoNoSelecionado = arestaAdjacente.getDestino().getId();
                     }
