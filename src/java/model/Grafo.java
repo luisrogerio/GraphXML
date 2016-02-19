@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -179,8 +180,6 @@ public class Grafo {
             arestasAdjacentes = getArestasDoNoAtual(No.getNoById(noSelecionado, this.nos));
             if (arestasAdjacentes.get(0).getOrigem().getId().equals(noSelecionado)) {
                 menorEstimativa = dijkstraListaEstimativas.get(arestasAdjacentes.get(0).getDestino().getId());
-            } else {
-                menorEstimativa = dijkstraListaEstimativas.get(arestasAdjacentes.get(0).getOrigem().getId());
             }
 
             for (Aresta arestaAdjacente : arestasAdjacentes) {
@@ -189,21 +188,11 @@ public class Grafo {
                     dijkstraListaEstimativas.replace(arestaAdjacente.getDestino().getId(),
                             arestaAdjacente.getValor()
                             + dijkstraListaEstimativas.get(noSelecionado));
-                } else {
-                    dijkstraListaPrecedentes.replace(arestaAdjacente.getOrigem().getId(), noSelecionado);
-                    dijkstraListaEstimativas.replace(arestaAdjacente.getOrigem().getId(),
-                            arestaAdjacente.getValor()
-                            + dijkstraListaEstimativas.get(noSelecionado));
                 }
                 if (arestaAdjacente.getOrigem().getId().equals(noSelecionado)) {
                     if (menorEstimativa >= dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId())) {
                         menorEstimativa = dijkstraListaEstimativas.get(arestaAdjacente.getDestino().getId());
                         proximoNoSelecionado = arestaAdjacente.getDestino().getId();
-                    }
-                } else {
-                    if (menorEstimativa >= dijkstraListaEstimativas.get(arestaAdjacente.getOrigem().getId())) {
-                        menorEstimativa = dijkstraListaEstimativas.get(arestaAdjacente.getOrigem().getId());
-                        proximoNoSelecionado = arestaAdjacente.getOrigem().getId();
                     }
                 }
 
@@ -319,7 +308,7 @@ public class Grafo {
         }
         return mapaVerticesAdj;
     }
-
+    
     public Map<String, List<No>> getVerticesIndependentes() {
         Set<No> gerarNosIndependentes = null;
         Map<String, List<No>> nosIndependentes = new HashMap<String, List<No>>();
@@ -376,4 +365,52 @@ public class Grafo {
         }
         return arestasIndependentes;
     }
+
+    public Grafo algoritmoDeKruskal() {
+        Grafo subGrafo = new Grafo(this.getId(), this.getTipo(), this.getTipoAresta(), this.getNos(), new ArrayList<Aresta>());
+        List<Aresta> arestasDoGrafo = this.getArestas();
+        Map<String, Integer> nosDoGrafo = new HashMap<String, Integer>();
+        int numeroVertices = this.getNos().size(), i = 0;
+        int[][] matrizComponentes = new int[2][this.getNos().size()];
+        Collections.sort(arestasDoGrafo, new ArestaComparator());
+        for (No no : this.nos) {
+            nosDoGrafo.put(no.getId(), i);
+            matrizComponentes[0][i] = i;
+            matrizComponentes[1][i] = i;
+            i++;
+        }
+        while ((subGrafo.getArestas().size() <= numeroVertices - 1) && !arestasDoGrafo.isEmpty()) {
+            Aresta aresta = arestasDoGrafo.get(0);
+            arestasDoGrafo.remove(aresta);
+            int componente_u = this.getComponenteKruskal(matrizComponentes, nosDoGrafo.get(aresta.getOrigem().getId()));
+            int componente_v = this.getComponenteKruskal(matrizComponentes, nosDoGrafo.get(aresta.getDestino().getId()));
+            if (componente_u != componente_v) {
+                this.mergeComponenteKruskal(matrizComponentes, componente_u, componente_v);
+                subGrafo.adicionarAresta(aresta);
+            }
+        }
+        return subGrafo;
+    }
+
+    public int getComponenteKruskal(int[][] matriz, int componente) {
+        int valor = matriz[1][componente];
+        return valor;
+    }
+
+    public int[][] mergeComponenteKruskal(int[][] matriz, int componente_1, int componente_2) {
+        int i, componenteATrocada = matriz[1][componente_2];
+        for (i = 0; i < matriz[0].length; i++) {
+            if(matriz[1][i] == componenteATrocada){
+                matriz[1][i] = matriz[1][componente_1];
+            }
+        }
+        return matriz;
+    }
+
+    public void adicionarAresta(Aresta aresta) {
+        List<Aresta> arestas = this.getArestas();
+        arestas.add(aresta);
+        this.setArestas(arestas);
+    }
+
 }

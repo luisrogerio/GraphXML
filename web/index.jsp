@@ -45,7 +45,12 @@
                             <option value="<c:out value="${no.id}"></c:out>"><c:out value="${no.id}"></c:out></option>
                         </c:forEach>
                     </select>
-                </form>
+                </form><br />
+                <c:if test="${grafo.tipo == 'undirected' && grafo.tipoAresta}">
+                    <form action="AlgoritmoDeKruskalController" method="post">
+                        <input type="submit" value="Árvore Geradora Mínima - Algoritmo de Kruskal" class="corBotao botoes" />
+                    </form>
+                </c:if>
             </c:if>
         </div>
     </body>

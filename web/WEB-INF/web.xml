@@ -20,6 +20,10 @@
         <servlet-name>CalcularDijkstra</servlet-name>
         <servlet-class>controller.CalcularDijkstra</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AlgoritmoDeKruskalController</servlet-name>
+        <servlet-class>controller.AlgoritmoDeKruskalController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>InserirGrafoController</servlet-name>
         <url-pattern>/InserirGrafoController</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>CalcularDijkstra</servlet-name>
         <url-pattern>/CalcularDijkstra</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AlgoritmoDeKruskalController</servlet-name>
+        <url-pattern>/AlgoritmoDeKruskalController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
