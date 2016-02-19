@@ -1,0 +1,21 @@
+<graph id="Kruskal" edgedefault="undirected" tipoAresta="true">
+  <node id="A"/>
+  <node id="B"/>
+  <node id="C"/>
+  <node id="D"/>
+  <node id="E"/>
+  <node id="F"/>
+  <node id="G"/>
+  <edge id="Aresta 1" source="A" target="B" valor="1"/>
+  <edge id="Aresta 2" source="B" target="C" valor="2"/>
+  <edge id="Aresta 3" source="D" target="E" valor="3"/>
+  <edge id="Aresta 4" source="A" target="D" valor="4"/>
+  <edge id="Aresta 5" source="B" target="E" valor="4"/>
+  <edge id="Aresta 6" source="F" target="G" valor="3"/>
+  <edge id="Aresta 7" source="C" target="E" valor="5"/>
+  <edge id="Aresta 8" source="D" target="G" valor="4"/>
+  <edge id="Aresta 9" source="B" target="D" valor="6"/>
+  <edge id="Aresta 10" source="C" target="F" valor="6"/>
+  <edge id="Aresta 11" source="E" target="G" valor="7"/>
+  <edge id="Aresta 12" source="E" target="F" valor="8"/>
+</graph>
