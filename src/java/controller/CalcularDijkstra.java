@@ -32,7 +32,7 @@ public class CalcularDijkstra extends HttpServlet {
         if ("todosNos".equals(nomeNoDestino)) {
             List<List<No>> caminhosDaOrigem = new ArrayList<List<No>>();
             for (No no: grafo.getNos()) {
-                List<No> caminho = grafo.calcularDijkstra(noOrigem, grafo.getNo(nomeNoDestino));
+                List<No> caminho = grafo.calcularDijkstra(noOrigem, no);
                 caminhosDaOrigem.add(caminho);
             }
             request.setAttribute("caminhosDaOrigem", caminhosDaOrigem);

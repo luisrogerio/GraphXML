@@ -33,7 +33,7 @@ public class GeraInformacoesGrafo extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Grafo grafoCarregado = (Grafo) request.getSession().getAttribute("grafo");
-
+        
         NosComparator comparator = new NosComparator();
         Collections.sort(grafoCarregado.getNos(), comparator);
         Map mapaOrganizadoGraus = new TreeMap(comparator);
