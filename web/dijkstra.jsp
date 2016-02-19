@@ -13,25 +13,26 @@
             <c:choose>
                 <c:when test="${not empty caminhosDaOrigem}">
                     Caminhos do nó <c:out value="${nomeNoOrigem}"></c:out> para todos os outros:
-                    <ul>
+                        <ul>
                         <c:forEach items="${caminhosDaOrigem}" var="caminho">
                             <li>
-                            <c:forEach items="${caminho}" var="no">
-                                ${no.id} - 
-                            </c:forEach>
+                                <c:forEach items="${caminho}" var="no">
+                                    ${no.id} - 
+                                </c:forEach>
                             </li>
                         </c:forEach>
                     </ul>
                 </c:when>
                 <c:otherwise>
                     Caminho do nó <c:out value="${nomeNoOrigem}"></c:out> para o nó <c:out value="${noDestino}"></c:out>:
-                    <ul><li>
+                        <ul><li>
                             <c:forEach items="${caminho}" var="no">
                                 ${no.id} - 
                             </c:forEach>
-                            </li>
+                        </li>
                     </ul>
                 </c:otherwise>
             </c:choose>
+            <a href="index.jsp" class="bnt">Voltar</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="bntIncluir" value="Enviar" class="corBotao"/> 
     </body>
 </html>

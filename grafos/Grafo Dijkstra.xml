@@ -1,0 +1,17 @@
+<graph id="Grafo Dijkstra" edgedefault="directed" tipoAresta="true">
+  <node id="S"/>
+  <node id="U"/>
+  <node id="V"/>
+  <node id="X"/>
+  <node id="Y"/>
+  <edge id="Aresta 1" source="S" target="U" valor="10"/>
+  <edge id="Aresta 2" source="S" target="X" valor="5"/>
+  <edge id="Aresta 3" source="U" target="X" valor="2"/>
+  <edge id="Aresta 4" source="U" target="V" valor="1"/>
+  <edge id="Aresta 5" source="X" target="U" valor="3"/>
+  <edge id="Aresta 6" source="X" target="Y" valor="2"/>
+  <edge id="Aresta 7" source="X" target="V" valor="9"/>
+  <edge id="Aresta 8" source="V" target="Y" valor="6"/>
+  <edge id="Aresta 9" source="Y" target="S" valor="7"/>
+  <edge id="Aresta 10" source="Y" target="V" valor="4"/>
+</graph>

@@ -1,7 +1,7 @@
 package model;
 
+import java.lang.management.GarbageCollectorMXBean;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -177,7 +177,7 @@ public class Grafo {
         }
         do {
             listaVarridos.add(noSelecionado);
-            arestasAdjacentes = getArestasDoNoAtual(No.getNoById(noSelecionado, this.nos));
+            arestasAdjacentes = getArestasQueSaemDoNoAtual(No.getNoById(noSelecionado, this.nos));
             if (arestasAdjacentes.get(0).getOrigem().getId().equals(noSelecionado)) {
                 menorEstimativa = dijkstraListaEstimativas.get(arestasAdjacentes.get(0).getDestino().getId());
             }
@@ -199,7 +199,6 @@ public class Grafo {
             }
             noSelecionado = proximoNoSelecionado;
         } while (listaVarridos.size() != this.nos.size());
-
         return dijkstraListaPrecedentes;
     }
 
@@ -209,9 +208,10 @@ public class Grafo {
         String noAnterior = destino.getId();
         do {
             caminho.add(this.getNo(noAnterior));
-            noAnterior = listaPrecedentes.get(destino.getId());
+            noAnterior = listaPrecedentes.get(noAnterior);
         } while (!noAnterior.equals(inicio.getId()));
-
+        caminho.add(inicio);
+        Collections.reverse(caminho);
         return caminho;
     }
 
@@ -219,6 +219,16 @@ public class Grafo {
         List<Aresta> arestasDoNoAtual = new ArrayList();
         for (Aresta aresta : this.getArestas()) {
             if (aresta.getOrigem().getId().equals(no.getId()) || aresta.getDestino().getId().equals(no.getId())) {
+                arestasDoNoAtual.add(aresta);
+            }
+        }
+        return arestasDoNoAtual;
+    }
+    
+    public List<Aresta> getArestasQueSaemDoNoAtual(No no) {
+        List<Aresta> arestasDoNoAtual = new ArrayList();
+        for (Aresta aresta : this.getArestas()) {
+            if (aresta.getOrigem().getId().equals(no.getId())) {
                 arestasDoNoAtual.add(aresta);
             }
         }
@@ -422,7 +432,7 @@ public class Grafo {
         }
         List<String> verticesDoSubGrafo = new ArrayList<String>();
         verticesDoSubGrafo.add(verticesDoGrafo.get(0));
-        while (!verticesDoSubGrafo.containsAll(this.getNos())) {
+        while (!(verticesDoSubGrafo.size() == this.getNos().size())) {
             Aresta aresta = getArestaPrim(verticesDoGrafo, verticesDoSubGrafo);
             subGrafo.adicionarAresta(aresta);
             verticesDoSubGrafo.add(aresta.getOrigem().getId());
