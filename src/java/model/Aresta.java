@@ -77,4 +77,14 @@ public class Aresta {
         }
         return null;
     }
+    
+    public No getNoAdjacente(No no){
+        if(no.getId().equals(this.getDestino().getId())){
+            return this.getOrigem();
+        } 
+        if(no.getId().equals(this.getOrigem().getId())) {
+            return this.getDestino();
+        }
+        return null;
+    }
 }

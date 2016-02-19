@@ -49,6 +49,9 @@
                 <c:if test="${grafo.tipo == 'undirected' && grafo.tipoAresta}">
                     <form action="AlgoritmoDeKruskalController" method="post">
                         <input type="submit" value="Árvore Geradora Mínima - Algoritmo de Kruskal" class="corBotao botoes" />
+                    </form> <br />
+                    <form action="AlgoritmoDePrimController" method="post">
+                        <input type="submit" value="Árvore Geradora Mínima - Algoritmo de Prim" class="corBotao botoes" />
                     </form>
                 </c:if>
             </c:if>

@@ -308,7 +308,7 @@ public class Grafo {
         }
         return mapaVerticesAdj;
     }
-    
+
     public Map<String, List<No>> getVerticesIndependentes() {
         Set<No> gerarNosIndependentes = null;
         Map<String, List<No>> nosIndependentes = new HashMap<String, List<No>>();
@@ -401,7 +401,7 @@ public class Grafo {
     public int[][] mergeComponenteKruskal(int[][] matriz, int componente_1, int componente_2) {
         int i, componenteATrocada = matriz[1][componente_2];
         for (i = 0; i < matriz[0].length; i++) {
-            if(matriz[1][i] == componenteATrocada){
+            if (matriz[1][i] == componenteATrocada) {
                 matriz[1][i] = matriz[1][componente_1];
             }
         }
@@ -412,6 +412,45 @@ public class Grafo {
         List<Aresta> arestas = this.getArestas();
         arestas.add(aresta);
         this.setArestas(arestas);
+    }
+
+    public Grafo algoritmoDePrim() {
+        Grafo subGrafo = new Grafo(this.getId(), this.getTipo(), this.getTipoAresta(), new ArrayList<No>(), new ArrayList<Aresta>());
+        List<String> verticesDoGrafo = new ArrayList<String>();
+        for (No no : this.getNos()) {
+            verticesDoGrafo.add(no.getId());
+        }
+        List<String> verticesDoSubGrafo = new ArrayList<String>();
+        verticesDoSubGrafo.add(verticesDoGrafo.get(0));
+        while (!verticesDoSubGrafo.containsAll(this.getNos())) {
+            Aresta aresta = getArestaPrim(verticesDoGrafo, verticesDoSubGrafo);
+            subGrafo.adicionarAresta(aresta);
+            verticesDoSubGrafo.add(aresta.getOrigem().getId());
+        }
+        List<No> nosDoSubGrafo = new ArrayList<No>();
+        for (String vertice : verticesDoSubGrafo) {
+            nosDoSubGrafo.add(new No(vertice));
+        }
+        subGrafo.setNos(nosDoSubGrafo);
+        return subGrafo;
+    }
+
+    public Aresta getArestaPrim(List<String> verticesOriginal, List<String> verticesArvore) {
+        List<Aresta> arestasOriginal = new ArrayList<Aresta>();
+        arestasOriginal.addAll(this.getArestas());
+        Collections.sort(arestasOriginal, new ArestaComparator());
+        List<String> diferencaEntreArestas = new ArrayList<String>();
+        verticesOriginal.removeAll(verticesArvore);
+        diferencaEntreArestas.addAll(verticesOriginal);
+        for (Aresta aresta : arestasOriginal) {
+            if ((diferencaEntreArestas.contains(aresta.getOrigem().getId()) && verticesArvore.contains(aresta.getDestino().getId()))) {
+                return aresta;
+            }
+            if ((diferencaEntreArestas.contains(aresta.getDestino().getId()) && verticesArvore.contains(aresta.getOrigem().getId()))){
+                return new Aresta(aresta.getId(), aresta.getDestino(), aresta.getOrigem(), aresta.getValor());
+            }
+        }
+        return null;
     }
 
 }
