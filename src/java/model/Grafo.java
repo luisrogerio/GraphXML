@@ -368,7 +368,8 @@ public class Grafo {
 
     public Grafo algoritmoDeKruskal() {
         Grafo subGrafo = new Grafo(this.getId(), this.getTipo(), this.getTipoAresta(), this.getNos(), new ArrayList<Aresta>());
-        List<Aresta> arestasDoGrafo = this.getArestas();
+        List<Aresta> arestasDoGrafo = new ArrayList<Aresta>();
+        arestasDoGrafo.addAll(this.getArestas());
         Map<String, Integer> nosDoGrafo = new HashMap<String, Integer>();
         int numeroVertices = this.getNos().size(), i = 0;
         int[][] matrizComponentes = new int[2][this.getNos().size()];
