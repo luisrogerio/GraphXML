@@ -1,10 +1,12 @@
-<graph id="graph" edgedefault="undirected">
+<graph id="graph" edgedefault="undirected" tipoAresta="true">
   <node id="A"/>
   <node id="B"/>
   <node id="C"/>
   <node id="D"/>
-  <edge id="A1" source="A" target="B" valor="2"/>
-  <edge id="A2" source="B" target="C" valor="4"/>
-  <edge id="A3" source="A" target="D" valor="7"/>
-  <edge id="A4" source="C" target="A" valor="1"/>
+  <node id="E"/>
+  <edge id="Aresta 1" source="A" target="B" valor="1"/>
+  <edge id="Aresta 2" source="B" target="C" valor="2"/>
+  <edge id="Aresta 3" source="A" target="D" valor="3"/>
+  <edge id="Aresta 4" source="C" target="A" valor="4"/>
+  <edge id="Aresta 5" source="D" target="E" valor="5"/>
 </graph>

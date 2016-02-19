@@ -52,90 +52,15 @@ public class GeraInformacoesGrafo extends HttpServlet {
             //request.setAttribute("listaNosAntecessores", CarregaGrafoController.criaListaAntecessores(grafoCarregado));
             //request.setAttribute("listaNosSucessores", CarregaGrafoController.criaListaSucessores(grafoCarregado));
         }
-        request.setAttribute("mapaVerticesAdj", grafoCarregado.getMapaVerticesAdjacentes(grafoCarregado.getNos()));
+        request.setAttribute("mapaVerticesAdj", grafoCarregado.getMapaVerticesAdjacentes());
+        request.setAttribute("mapaArestasAdj", grafoCarregado.getMapaArestasAdjacentes());
         mapaOrganizadoGraus.putAll(grafoCarregado.getGraus());
         request.setAttribute("nosComGrau", mapaOrganizadoGraus);
         request.setAttribute("ordemGrafo", grafoCarregado.getOrdem());
-        //request.setAttribute("nosIsolados", grafoCarregado.);
-  
-        //request.setAttribute("listaVerticesIndependentes", CarregaGrafoController.listaVerticesIndependentes(grafoCarregado, grafoCarregado.getMatrizAdjacencia()));
-        //request.setAttribute("listaArestasIndependentes", CarregaGrafoController.listaArestasIndependentes(grafoCarregado, grafoCarregado.getMatrizAdjacencia()));
+        request.setAttribute("mapaVerticesIndependentes", grafoCarregado.getVerticesIndependentes());
+        request.setAttribute("mapaArestasIndependentes", grafoCarregado.getArestasIndependentes());
         
         getServletContext().getRequestDispatcher("/visualizarGrafo.jsp").forward(request, response);
-    }
-
-    private static List<No> listaNosIsolados(Map<No,Integer> mapa) {
-        List<No> listaDeNosIsolados = new ArrayList();
-        for (No noAtual : mapa.keySet()) {
-            if (mapa.get(noAtual) == 0) {
-                listaDeNosIsolados.add(noAtual);
-            }
-        }
-        return listaDeNosIsolados;
-    }
-
-    private static List<No> listaNosFolhas(Map<No, Integer> mapa) { //Conferir se essa função também funciona para grafos direcionados.
-        List<No> listaDeNosFolhas = new ArrayList();
-        for (No noAtual : mapa.keySet()) {
-            if (mapa.get(noAtual) == 1) {
-                listaDeNosFolhas.add(noAtual);
-            }
-        }
-        return listaDeNosFolhas;
-    }
-
-    private static List<List<Aresta>> listaArestasIndependentes(Grafo grafo, int matriz[][]) {
-        List<List<Aresta>> listaArestasIndependentes = new ArrayList();
-        List<Aresta> listaArestas = new ArrayList();
-        Map<Integer, No> nosDoGrafo = new HashMap();
-        Map<Integer, Aresta> arestasDoGrafo = new HashMap();
-        int i = 0, j = 0;
-        for (No no : grafo.getNos()) {
-            nosDoGrafo.put(i, no);
-            i++;
-        }
-        i = 0;
-        for (Aresta aresta : grafo.getArestas()) {
-            arestasDoGrafo.put(i, aresta);
-            i++;
-        }
-        for (i = 0; i < matriz.length; i++) {
-            listaArestas.clear();
-            for (j = 0; j < matriz[0].length; j++) {
-                if (matriz[i][j] == 0) {
-                    listaArestas.add(arestasDoGrafo.get(j));
-                }
-            }
-            listaArestasIndependentes.add(listaArestas);
-        }
-        return listaArestasIndependentes;
-    }
-
-    private static List<List<No>> listaVerticesIndependentes(Grafo grafo, int matriz[][]) {
-        List<List<No>> listaVerticesIndependentes = new ArrayList();
-        List<No> listaVertices = new ArrayList();
-        Map<Integer, No> nosDoGrafo = new HashMap();
-        Map<Integer, Aresta> arestasDoGrafo = new HashMap();
-        int i = 0, j = 0;
-        for (No no : grafo.getNos()) {
-            nosDoGrafo.put(i, no);
-            i++;
-        }
-        i = 0;
-        for (Aresta aresta : grafo.getArestas()) {
-            arestasDoGrafo.put(i, aresta);
-            i++;
-        }
-        for (i = 0; i < matriz[0].length; i++) {
-            listaVertices.clear();
-            for (j = 0; j < matriz.length; j++) {
-                if (matriz[i][j] == 0) {
-                    listaVertices.add(nosDoGrafo.get(i));
-                }
-            }
-            listaVerticesIndependentes.add(listaVertices);
-        }
-        return listaVerticesIndependentes;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

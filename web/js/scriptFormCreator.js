@@ -15,7 +15,7 @@ $(function () {
     });
     $('#adiconaAresta').live('click', function () {
         if (!$("#gValorado").attr("checked")) {
-            $('<p><input type="text" id="aresta' + j + '" size="20" name="arestas" value="" placeholder="A,B" /> <input type="number" name="valorAresta" style="visible:hidden;" value="" placeholder="10"/>\n\
+            $('<p><input type="text" id="aresta' + j + '" size="20" name="arestas" value="" placeholder="A,B" /> \n\
             <a href="#" id="removerAresta" class="bnt bntExcluir">Remove</a></p>').appendTo(arestas);
         } else {
             $('<p><input type="text" id="aresta' + j + '" size="20" name="arestas" value="" placeholder="A,B" /> <input type="number" name="valorAresta" value="" placeholder="10"/>\n\
@@ -27,15 +27,16 @@ $(function () {
     });
 
     $('#removerNo').live('click', function () {
-        if ($('input[name=nos]').size() > 1) {
+        if (i > 1) {
             $(this).parents('p').remove();
+            i--;
         }
-        
         return false;
     });
     $('#removerAresta').live('click', function () {
-        if ($('input[name=arestas]').size() > 1) {
+        if (j > 1) {
             $(this).parents('p').remove();
+            j--;
         }
         return false;
     });
@@ -52,7 +53,5 @@ $(function () {
             $("input[name=valorAresta]").hide("fast");
         }
     });
-
-
 });
 

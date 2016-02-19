@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author LuísRogério
@@ -67,4 +69,12 @@ public class Aresta {
         this.valor = valor;
     }
 
+    public static Aresta getArestaById(String id, List<Aresta> arestas) {
+        for (Aresta aresta : arestas) {
+            if (aresta.getId().equals(id)) {
+                return aresta;
+            }
+        }
+        return null;
+    }
 }

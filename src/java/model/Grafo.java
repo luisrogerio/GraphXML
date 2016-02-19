@@ -3,8 +3,10 @@ package model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Grafo {
 
@@ -128,7 +130,7 @@ public class Grafo {
     }
 
     public No getNo(String id) {
-        return No.getNoById(id, this.nos);
+        return No.getNoById(id, this.getNos());
     }
 
     public void setNos(List<No> nos) {
@@ -137,6 +139,10 @@ public class Grafo {
 
     public List<Aresta> getArestas() {
         return arestas;
+    }
+
+    public Aresta getAresta(String id) {
+        return Aresta.getArestaById(id, this.getArestas());
     }
 
     public void setArestas(List<Aresta> arestas) {
@@ -217,39 +223,138 @@ public class Grafo {
 
         for (Aresta arestaAtual : arestasDoNo) {
             nosAdjacentes.add(arestaAtual.getDestino());
-            if (no.getId().equals(arestaAtual.getOrigem())) {
+            if (no.getId().equals(arestaAtual.getOrigem().getId())) {
                 nosAdjacentes.add(arestaAtual.getOrigem());
             }
         }
         return nosAdjacentes;
     }
 
-    public Map<String, List<String>> getMapaVerticesAdjacentes(List<No> nos) {
+    public Map<String, List<String>> getMapaArestasAdjacentes() {
+        int[][] matrizIncidencia = this.getMatrizIncidencia();
+        Map<Integer, String> posicaoArestasDoGrafo = new HashMap<Integer, String>();
+        Map<String, List<String>> arestasAdjacentes = new HashMap<String, List<String>>();
+        //List<Aresta> arestasDoGrafo = this.getArestas();
+        List<Integer> nosAdjacentes = new ArrayList();
+        List<String> listaArestasAdjacentes = new ArrayList();
+        Set<String> listaSemRepeticoes = new HashSet<String>();
+        int numeroTotalArestas = this.getArestas().size();
+        int i = 0, j = 0, k = 0;
+
+        for (Aresta aresta : this.getArestas()) {
+            posicaoArestasDoGrafo.put(i, aresta.getId());
+            i++;
+        }
+        // for (Aresta arestaAtual : arestasDoGrafo) {
+        for (j = 0; j < numeroTotalArestas; j++) {
+            listaArestasAdjacentes = new ArrayList<String>();
+            nosAdjacentes = new ArrayList<Integer>();
+            listaSemRepeticoes = new HashSet<String>();
+            for (i = 0; i < this.getNos().size(); i++) {
+                if (matrizIncidencia[i][j] == 1) { //guardo a posição da linha da matriz
+                    nosAdjacentes.add(i);
+                }
+
+            }
+            for (int linhaAtual : nosAdjacentes) {
+                for (k = 0; k < numeroTotalArestas; k++) {
+                    if (matrizIncidencia[linhaAtual][k] == 1) {
+                        listaArestasAdjacentes.add(posicaoArestasDoGrafo.get(k));
+                    }
+                }//não estou varrendo as aresta direitos, na linha abaixo não vou para a proxima aresta pq estou usando o i e nao outra variavel?
+            }
+            listaSemRepeticoes.addAll(listaArestasAdjacentes);
+            listaArestasAdjacentes.clear();
+            listaArestasAdjacentes.addAll(listaSemRepeticoes);
+            listaArestasAdjacentes.remove(posicaoArestasDoGrafo.get(j));
+            arestasAdjacentes.put(posicaoArestasDoGrafo.get(j), listaArestasAdjacentes);
+        }
+        return arestasAdjacentes;
+    }
+
+    public Map<String, List<String>> getMapaVerticesAdjacentes() {
         Map<Integer, String> posicaoNosDoGrafo = new HashMap<Integer, String>();
         int[][] matrizAdj = this.getMatrizAdjacencia();
-        int i = 0, j = 0;
-        String nomeNo;
-        Map<String, List<String>> mapaVerticesAdj;
-        List<String> nosAdj = new ArrayList();
-        
-        for (No no : this.nos) {
+        int i = 0, j;
+        String nomeNo = null;
+        Map<String, List<String>> mapaVerticesAdj = new HashMap<String, List<String>>();
+        List<String> nosAdj = null;
+
+        for (No no : this.getNos()) {
             posicaoNosDoGrafo.put(i, no.getId());
             i++;
         }
-        while (i < nos.size()) {
-            nosAdj
-            while (j < nos.size()) {
+        i = 0;
+        while (i < this.getNos().size()) {
+            nosAdj = new ArrayList();
+            for (j = 0; j < this.getNos().size(); j++) {
                 if (matrizAdj[j][i] == 1) {
                     nomeNo = posicaoNosDoGrafo.get(j);
-                    nosAdj.add(nomeNo);                    
+                    nosAdj.add(nomeNo);
                 }
-                j++;
             }
-            if(nosAdj.size() > 1){
-                
+            if (!nosAdj.isEmpty()) {
+                mapaVerticesAdj.put(posicaoNosDoGrafo.get(i), nosAdj);
             }
             i++;
         }
         return mapaVerticesAdj;
+    }
+
+    public Map<String, List<No>> getVerticesIndependentes() {
+        Set<No> gerarNosIndependentes = null;
+        Map<String, List<No>> nosIndependentes = new HashMap<String, List<No>>();
+        List<No> nosAdjacentes = null;
+        List<No> listaNosIndependentes = null;
+        Map<String, List<String>> verticesAdjacentes = this.getMapaVerticesAdjacentes();
+
+        for (Map.Entry<String, List<String>> entry : verticesAdjacentes.entrySet()) {
+            String verticeAtual = entry.getKey();
+            List<String> listaVerticesAdjacentes = entry.getValue();
+            gerarNosIndependentes = new HashSet<No>();
+            listaNosIndependentes = new ArrayList();
+            nosAdjacentes = new ArrayList();
+
+            for (String vertice : listaVerticesAdjacentes) {
+                nosAdjacentes.add(this.getNo(vertice));
+            }
+            nosAdjacentes.add(this.getNo(verticeAtual));
+
+            for (No noDoGrafo : this.getNos()) {
+                if (!nosAdjacentes.contains(noDoGrafo)) {
+                    listaNosIndependentes.add(noDoGrafo);
+                }
+            }
+
+            nosIndependentes.put(verticeAtual, listaNosIndependentes);
+        }
+        return nosIndependentes;
+    }
+
+    public Map<String, List<Aresta>> getArestasIndependentes() {
+        Map<String, List<String>> arestasAdjacentes = this.getMapaArestasAdjacentes();
+        Map<String, List<Aresta>> arestasIndependentes = new HashMap<String, List<Aresta>>();
+        List<Aresta> listaArestasAdjacentes = null;
+        List<Aresta> listaArestas = null;
+
+        for (Map.Entry<String, List<String>> entry : arestasAdjacentes.entrySet()) {
+            String arestaAtual = entry.getKey();
+            List<String> value = entry.getValue();
+            listaArestasAdjacentes = new ArrayList<Aresta>();
+            listaArestas = new ArrayList<Aresta>();
+            listaArestas.add(this.getAresta(arestaAtual));
+
+            for (String idAresta : value) {
+                listaArestas.add(this.getAresta(idAresta));
+            }
+
+            for (Aresta arestaDoGrafo : this.getArestas()) {
+                if (!listaArestas.contains(arestaDoGrafo)) {
+                    listaArestasAdjacentes.add(arestaDoGrafo);
+                }
+            }
+            arestasIndependentes.put(arestaAtual, listaArestasAdjacentes);
+        }
+        return arestasIndependentes;
     }
 }

@@ -36,7 +36,8 @@
             <p>Arestas:</p>
             <ul>
                 <c:forEach items="${grafo.arestas}" var="aresta">
-                    <li><c:out value="${aresta.id}"></c:out>: <c:out value="${aresta.origem.id}"></c:out> - <c:out value="${aresta.destino.id}"></c:out></li>
+                    <li>${aresta.id}: ${aresta.origem.id} - ${aresta.destino.id}.<c:if test="${not empty aresta.valor}">Valor: ${aresta.valor}</c:if>
+                      
                     </c:forEach>
             </ul>
             <p>Grau dos Nós:</p>
@@ -56,18 +57,78 @@
                     </c:forEach>
             </ul>
 
+            <p>Nós Isolados: </p>
+            <ul>
+                <c:forEach items="${nosComGrau}" var="no">
+                    <c:if test="${no.value == 0}" >
+                        <li>
+                            <c:out value="${no.key.id}"></c:out>: <c:out value="${no.value}"></c:out>
+                            </li>
+                    </c:if>
+                </c:forEach>
+            </ul>
+
             <p>Vertices Adjacentes: </p>
             <ul>
                 <c:forEach items="${mapaVerticesAdj}" var="vertice">
                     <li>
-                        <c:out value="${vertice.key.id}:"></c:out>
-                        <c:forEach items="${vertice.value}" var="verticesAdj">
-                            <c:out value="${verticesAdj.id}   "></c:out>
-                        </c:forEach>
+                        <c:out value="${vertice.key}:"></c:out>
+                            <ul>
+                            <c:forEach items="${vertice.value}" var="verticesAdj">
+                                <li>
+                                    <c:out value="${verticesAdj}   "></c:out>
+                                    </li>
+                            </c:forEach>
+                        </ul>
                     </li>
                 </c:forEach>
             </ul>
 
+            <p>Arestas Adjacentes: </p>
+            <ul>
+                <c:forEach items="${mapaArestasAdj}" var="aresta">
+                    <li>
+                        <c:out value="${aresta.key}:"></c:out>
+                            <ul>
+                            <c:forEach items="${aresta.value}" var="arestaAdj">
+                                <li><c:out value="${arestaAdj}"></c:out></li>
+                                </c:forEach>
+                        </ul>
+                    </li>
+                </c:forEach>
+            </ul>
+            
+            <p>Vertices Independentes:</p>
+            <ul>
+            <c:forEach items="${mapaVerticesIndependentes}" var="vertice">
+                <li>
+                    <c:out value="${vertice.key}"></c:out>
+                    <ul>
+                    <c:forEach items="${vertice.value}" var="verticeIndependente">
+                        <li>
+                            ${verticeIndependente.id}
+                        </li>
+                    </c:forEach>
+                    </ul>
+                </li>
+            </c:forEach>
+            </ul>
+            
+            <p>Arestas Independentes:</p>
+            <ul>
+            <c:forEach items="${mapaArestasIndependentes}" var="aresta">
+                <li>
+                    <c:out value="${aresta.key}"></c:out>
+                    <ul>
+                    <c:forEach items="${aresta.value}" var="arestaIndependente">
+                        <li>
+                            ${arestaIndependente.id}
+                        </li>
+                    </c:forEach>
+                    </ul>
+                </li>
+            </c:forEach>
+            </ul>
         </div>
 
 
@@ -111,16 +172,7 @@
                     </c:forEach>
                 </ul>
 
-                <p>Nós Isolados: </p>
-                <ul>
-                    <c:forEach items="${nosComGrau}" var="no">
-                        <c:if test="${no.value == 0}" >
-                            <li>
-                                <c:out value="${no.key.id}"></c:out>: <c:out value="${no.value}"></c:out>
-                                </li>
-                        </c:if>
-                    </c:forEach>
-                </ul>
+
             </div>
         </c:if>
         <a href="index.jsp" class="bnt" id="botaoVoltar">Voltar</a>
