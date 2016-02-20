@@ -477,5 +477,41 @@ public class Grafo {
         }
         return null;
     }
+    
+    public Map<String, List<String>> getNosAntecessores(){
+        Map<String, List<String>> listaNosAntecessores = new HashMap<String, List<String>>();
+        for(No no : this.getNos()){
+            listaNosAntecessores.put(no.getId(), this.getNosAntecessores(no));
+        }
+        return listaNosAntecessores;
+    }
+    
+    public List<String> getNosAntecessores(No no){
+        List<String> nosAntecessores = new ArrayList<String>();
+        for (Aresta aresta : this.getArestas()){
+            if(aresta.getDestino().getId().equals(no.getId())){
+                nosAntecessores.add(aresta.getOrigem().getId());
+            }
+        }
+        return nosAntecessores;
+    }
+    
+    public Map<String, List<String>> getNosSucessores(){
+        Map<String, List<String>> listaNosSucessores = new HashMap<String, List<String>>();
+        for(No no : this.getNos()){
+            listaNosSucessores.put(no.getId(), this.getNosSucessores(no));
+        }
+        return listaNosSucessores;
+    }
+    
+    public List<String> getNosSucessores(No no){
+        List<String> nosSucessores = new ArrayList<String>();
+        for (Aresta aresta : this.getArestas()){
+            if(aresta.getOrigem().getId().equals(no.getId())){
+                nosSucessores.add(aresta.getDestino().getId());
+            }
+        }
+        return nosSucessores;
+    }
 
 }

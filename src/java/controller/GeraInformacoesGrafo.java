@@ -48,6 +48,9 @@ public class GeraInformacoesGrafo extends HttpServlet {
            
             mapaOrganizadoGrauRecepcao.putAll(grafoCarregado.getGrausDeRecepcao());
             request.setAttribute("grauDeRecepcao", mapaOrganizadoGrauRecepcao);
+            request.setAttribute("nosAntecessores", grafoCarregado.getNosAntecessores());
+            request.setAttribute("nosSucessores", grafoCarregado.getNosSucessores());
+            
             
             //request.setAttribute("listaNosAntecessores", CarregaGrafoController.criaListaAntecessores(grafoCarregado));
             //request.setAttribute("listaNosSucessores", CarregaGrafoController.criaListaSucessores(grafoCarregado));

@@ -171,6 +171,29 @@
 
                     </c:forEach>
                 </ul>
+                <p>Nós Sucessores: </p>
+                <ul>
+                    <c:forEach items="${nosSucessores}" var="no">
+                        <li>${no.key}</li>
+                        <ul>
+                            <c:forEach items="${no.value}" var="sucessor">
+                                <li>${sucessor}</li>
+                            </c:forEach>
+                        </ul>
+                    </c:forEach>
+                </ul>
+                
+                <p>Nós Antecessores: </p>
+                <ul>
+                    <c:forEach items="${nosAntecessores}" var="no">
+                        <li>${no.key}</li>
+                        <ul>
+                            <c:forEach items="${no.value}" var="antecessor">
+                                <li>${antecessor}</li>
+                            </c:forEach>
+                        </ul>
+                    </c:forEach>
+                </ul>
 
 
             </div>
